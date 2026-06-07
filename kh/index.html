@@ -38,6 +38,10 @@ h1{margin:0 0 18px;text-transform:uppercase;font-size:clamp(2.4rem,4.8vw,5.2rem)
 .controls{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 0}
 .filter,.action{appearance:none;border:1px solid rgba(255,72,78,.72);background:rgba(0,0,0,.70);color:var(--red-soft);cursor:pointer;font-family:Arial,sans-serif;text-transform:uppercase;letter-spacing:.10em;font-size:.72rem;padding:8px 10px}
 .filter.active,.filter:hover,.action:hover{color:rgba(255,48,48,.98);border-color:rgba(255,48,48,.82);background:rgba(215,25,32,.12)}
+/* Norbert-Filter-Button bekommt gelbe Farbe */
+.filter[data-filter="norbert"]{border-color:rgba(255,220,50,.55);color:rgba(255,220,50,.82);}
+.filter[data-filter="norbert"].active,
+.filter[data-filter="norbert"]:hover{color:rgba(255,230,60,.98);border-color:rgba(255,230,60,.9);background:rgba(180,150,0,.15);}
 .map-panel{grid-column:2/3;min-height:520px;background:rgba(0,0,0,.55);border:1px solid rgba(215,25,32,.28);box-shadow:0 0 34px rgba(0,0,0,.72);overflow:hidden}
 #map{width:100%;height:100%;min-height:520px;filter:saturate(.85) contrast(1.18) brightness(.78);background:#071018}
 .lower{grid-column:1/3;display:grid;grid-template-columns:minmax(320px,460px) minmax(0,1fr);gap:clamp(22px,3vw,44px);align-items:start}
@@ -52,6 +56,7 @@ input::placeholder{color:rgba(255,130,134,.58)}
 .sightings-list{display:grid;gap:10px}
 .sighting{padding:12px 0;border-bottom:1px solid rgba(255,72,78,.32);font-family:Arial,sans-serif;color:rgba(255,220,220,.96);line-height:1.45;text-shadow:0 0 12px rgba(0,0,0,.95)}
 .sighting strong{color:rgba(255,56,56,.96);font-family:Impact,Haettenschweiler,"Arial Narrow Bold",sans-serif;text-transform:uppercase;letter-spacing:.08em;font-weight:normal}
+.sighting.norbert-sighting strong{color:rgba(255,225,50,.96);}
 .sighting small{display:block;margin-top:4px;color:rgba(215,25,32,.54);letter-spacing:.04em}
 .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:22px;background:rgba(0,0,0,.86);z-index:1000}
 .modal.open{display:flex}
@@ -60,6 +65,7 @@ input::placeholder{color:rgba(255,130,134,.58)}
 .close-modal{margin-top:14px;float:right}
 .leaflet-popup-content-wrapper,.leaflet-popup-tip{background:rgba(0,0,0,.88);color:rgba(255,64,64,.92);border:1px solid rgba(215,25,32,.38);box-shadow:0 0 20px rgba(0,0,0,.7)}
 .kh-marker{width:16px;height:16px;background:#d71920;border:2px solid rgba(0,0,0,.9);border-radius:50%;box-shadow:0 0 18px rgba(215,25,32,.85)}
+.norbert-marker{width:20px;height:20px;background:#ffe030;border:2px solid rgba(0,0,0,.9);border-radius:50%;box-shadow:0 0 18px rgba(255,220,30,.7)}
 .action,.filter,.back,.help-button,.legal-links a{color:var(--red-soft);}
 .action:hover,.filter:hover,.back:hover,.help-button:hover,.legal-links a:hover{color:rgba(255,48,48,.98);}
 .success-panel{display:none;background:rgba(0,0,0,.72);border-top:2px solid rgba(255,72,78,.8);padding:clamp(18px,2.6vw,26px);backdrop-filter:blur(2px);}
@@ -84,6 +90,7 @@ input::placeholder{color:rgba(255,130,134,.58)}
   <p class="lead">Fünf Teile. Fünf Karl-Heinze. Kein Ziel, kein Kompass, kein belastbarer Orientierungssinn.</p>
   <div class="controls">
     <button class="filter active" data-filter="all" type="button">Alle</button>
+    <button class="filter" data-filter="norbert" type="button">Norbert</button>
     <button class="filter" data-filter="teil1" type="button">Karl-Heinz I</button>
     <button class="filter" data-filter="teil2" type="button">Karl-Heinz II</button>
     <button class="filter" data-filter="teil3" type="button">Karl-Heinz III</button>
@@ -127,8 +134,7 @@ input::placeholder{color:rgba(255,130,134,.58)}
 
   <section class="success-panel" id="successPanel">
     <h2>Sichtung vermerkt</h2>
-    <p>Die Sichtung wurde vermerkt und weitergeleitet.</p>
-    <p>Nach der Freigabe wird sie hier auf der Karte veröffentlicht.</p>
+    <p>Ein Vermerk der Sichtung wurde in die Akte gelegt. Nach Genehmigung wird der Vorgang in die Akte aufgenommen und veröffentlicht.</p>
   </section>
 
   <form name="sichtung" netlify netlify-honeypot="bot-field" style="display:none">
@@ -173,7 +179,10 @@ input::placeholder{color:rgba(255,130,134,.58)}
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-const partLabels = {teil1:"Karl-Heinz I",teil2:"Karl-Heinz II",teil3:"Karl-Heinz III",teil4:"Karl-Heinz IV",teil5:"Karl-Heinz V"};
+const partLabels = {
+  teil1:"Karl-Heinz I", teil2:"Karl-Heinz II", teil3:"Karl-Heinz III",
+  teil4:"Karl-Heinz IV", teil5:"Karl-Heinz V", norbert:"Norbert"
+};
 const urlParams = new URLSearchParams(window.location.search);
 const requestedPart = urlParams.get("teil");
 let currentFilter = requestedPart && partLabels[requestedPart] ? requestedPart : "all";
@@ -184,17 +193,33 @@ let pendingLon = null;
 
 const map = L.map("map",{zoomControl:true,scrollWheelZoom:true}).setView([52.2,10.5],4);
 L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",{attribution:"&copy; OpenStreetMap &copy; CARTO",subdomains:"abcd",maxZoom:19}).addTo(map);
+
 const khIcon = L.divIcon({className:"",html:'<div class="kh-marker"></div>',iconSize:[16,16],iconAnchor:[8,8],popupAnchor:[0,-8]});
+const norbertIcon = L.divIcon({className:"",html:'<div class="norbert-marker"></div>',iconSize:[20,20],iconAnchor:[10,10],popupAnchor:[0,-10]});
 
 function formatDate(s){const d=new Date(s+"T00:00:00");return d.toLocaleDateString("de-DE",{day:"2-digit",month:"2-digit",year:"numeric"});}
 function todayISO(){return new Date().toISOString().slice(0,10);}
-function filteredSightings(){const ok=sightings.filter(s=>s.status==="approved");return currentFilter==="all"?ok:ok.filter(s=>s.teil===currentFilter);}
-function sightingSentence(item){return `Ein <strong>${partLabels[item.teil]}</strong> ist am ${formatDate(item.created_at)} in der Nähe von ${item.place_name} gesichtet worden.`;}
+
+function filteredSightings(){
+  const ok=sightings.filter(s=>s.status==="approved");
+  if(currentFilter==="all") return ok;
+  if(currentFilter==="norbert") return ok.filter(s=>s.type==="norbert");
+  return ok.filter(s=>s.teil===currentFilter && s.type!=="norbert");
+}
+
+function sightingSentence(item){
+  if(item.type==="norbert"){
+    return `<strong>Norbert</strong> wurde am ${formatDate(item.created_at)} gesichtet: ${item.place_name}.`;
+  }
+  return `Ein <strong>${partLabels[item.teil]}</strong> ist am ${formatDate(item.created_at)} in der Nähe von ${item.place_name} gesichtet worden.`;
+}
 
 function renderMap(){
   markers.forEach(m=>m.remove());markers=[];
   filteredSightings().forEach(item=>{
-    const m=L.marker([item.lat,item.lon],{icon:khIcon}).bindPopup(`<strong>${partLabels[item.teil]}</strong><br>${item.place_name}<br>${formatDate(item.created_at)}`);
+    const icon = item.type==="norbert" ? norbertIcon : khIcon;
+    const label = item.type==="norbert" ? "Norbert" : partLabels[item.teil];
+    const m=L.marker([item.lat,item.lon],{icon}).bindPopup(`<strong>${label}</strong><br>${item.place_name}<br>${formatDate(item.created_at)}`);
     m.addTo(map);markers.push(m);
   });
   if(markers.length>0){const g=L.featureGroup(markers);map.fitBounds(g.getBounds().pad(.22),{maxZoom:7});}
@@ -203,7 +228,10 @@ function renderMap(){
 function renderList(){
   const list=document.getElementById("sightingsList");
   list.innerHTML=filteredSightings().slice().sort((a,b)=>new Date(b.created_at)-new Date(a.created_at))
-    .map(item=>`<article class="sighting">${sightingSentence(item)}<small>${formatDate(item.created_at)}</small></article>`).join("");
+    .map(item=>{
+      const cls=item.type==="norbert"?"sighting norbert-sighting":"sighting";
+      return `<article class="${cls}">${sightingSentence(item)}<small>${formatDate(item.created_at)}</small></article>`;
+    }).join("");
 }
 
 function setFilter(f){
@@ -217,7 +245,6 @@ document.getElementById("openInfo").addEventListener("click",()=>document.getEle
 document.getElementById("closeInfo").addEventListener("click",()=>document.getElementById("infoModal").classList.remove("open"));
 document.getElementById("infoModal").addEventListener("click",(e)=>{if(e.target.id==="infoModal")document.getElementById("infoModal").classList.remove("open");});
 
-// Automatisch bestimmen: füllt das Textfeld, überschreibt was drin steht
 document.getElementById("useLocation").addEventListener("click",()=>{
   const hint=document.getElementById("locationHint");
   const placeInput=document.getElementById("placeInput");
@@ -247,18 +274,16 @@ document.getElementById("useLocation").addEventListener("click",()=>{
     pendingLat=null;pendingLon=null;
     if(/iPad|iPhone|iPod/.test(navigator.userAgent)){
       hint.textContent="Standortzugriff verweigert. Auf iPhone: Einstellungen → Datenschutz & Sicherheit → Ortungsdienste → Safari → \"Beim Verwenden\" auswählen. Oder Ort oben manuell eingeben.";
-    } else {
+    }else{
       hint.textContent="Standort konnte nicht ermittelt werden. Bitte Standortfreigabe im Browser prüfen, oder Ort manuell eingeben.";
     }
   },{enableHighAccuracy:false,timeout:8000,maximumAge:60000});
 });
 
-// Löschen: leert Textfeld und Koordinaten
 document.getElementById("clearLocation").addEventListener("click",()=>{
   document.getElementById("placeInput").value="";
   document.getElementById("locationHint").textContent="";
-  pendingLat=null;
-  pendingLon=null;
+  pendingLat=null;pendingLon=null;
 });
 
 let pendingSighting=null;
