@@ -12,9 +12,6 @@
 <style>
 :root{--red:#ff3038;--red-soft:rgba(255,72,78,.94)}
 h1,h2,.sighting strong{font-family:Impact,Haettenschweiler,"Arial Narrow Bold",sans-serif;}
-.lead,.hint,.sighting,.modal-box p,label{color:rgba(255,220,220,.96);}
-input,select{color:rgba(255,235,235,.98);}
-.sighting strong{color:#ff3038;}
 *{box-sizing:border-box}
 html,body{margin:0;min-height:100%;background:#000;color:var(--red)}
 body{
@@ -37,7 +34,7 @@ body{
 .back:hover,.help-button:hover{color:rgba(255,48,48,.98)}
 .intro{grid-column:1/2;align-self:start;background:linear-gradient(180deg,rgba(0,0,0,.78),rgba(0,0,0,.62));border-left:1px solid rgba(255,72,78,.62);padding:clamp(18px,3vw,26px);backdrop-filter:blur(2px)}
 h1{margin:0 0 18px;text-transform:uppercase;font-size:clamp(2.4rem,4.8vw,5.2rem);line-height:.92;letter-spacing:.035em;color:var(--red);text-shadow:0 0 18px rgba(215,25,32,.22),0 0 28px rgba(0,0,0,.95)}
-.lead{font-family:Arial,sans-serif;font-size:clamp(1rem,1.4vw,1.22rem);line-height:1.55;text-shadow:0 0 12px rgba(0,0,0,.95);margin:0 0 20px}
+.lead{font-family:Arial,sans-serif;font-size:clamp(1rem,1.4vw,1.22rem);line-height:1.55;color:rgba(255,220,220,.96);text-shadow:0 0 12px rgba(0,0,0,.95);margin:0 0 20px}
 .controls{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 0}
 .filter,.action{appearance:none;border:1px solid rgba(255,72,78,.72);background:rgba(0,0,0,.70);color:var(--red-soft);cursor:pointer;font-family:Arial,sans-serif;text-transform:uppercase;letter-spacing:.10em;font-size:.72rem;padding:8px 10px}
 .filter.active,.filter:hover,.action:hover{color:rgba(255,48,48,.98);border-color:rgba(255,48,48,.82);background:rgba(215,25,32,.12)}
@@ -46,22 +43,20 @@ h1{margin:0 0 18px;text-transform:uppercase;font-size:clamp(2.4rem,4.8vw,5.2rem)
 .lower{grid-column:1/3;display:grid;grid-template-columns:minmax(320px,460px) minmax(0,1fr);gap:clamp(22px,3vw,44px);align-items:start}
 .form-panel,.list-panel{background:rgba(0,0,0,.72);border-top:1px solid rgba(255,72,78,.55);padding:clamp(18px,2.6vw,26px);backdrop-filter:blur(2px)}
 h2{margin:0 0 18px;text-transform:uppercase;letter-spacing:.08em;font-size:clamp(1.35rem,2.6vw,2.3rem);color:var(--red)}
-label{display:block;margin:14px 0 6px;font-family:Arial,sans-serif;font-size:.84rem;text-transform:uppercase;letter-spacing:.10em}
-input,select{width:100%;padding:11px 12px;background:rgba(0,0,0,.78);border:1px solid rgba(255,72,78,.72);font-family:Arial,sans-serif;font-size:1rem;outline:none}
-.button-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+label{display:block;margin:14px 0 6px;color:rgba(255,220,220,.96);font-family:Arial,sans-serif;font-size:.84rem;text-transform:uppercase;letter-spacing:.10em}
+input,select{width:100%;padding:11px 12px;background:rgba(0,0,0,.78);border:1px solid rgba(255,72,78,.72);color:rgba(255,235,235,.98);font-family:Arial,sans-serif;font-size:1rem;outline:none}
 input::placeholder{color:rgba(255,130,134,.58)}
-input[readonly]{background:rgba(0,0,0,.86);color:rgba(255,190,190,.98)}
+.button-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
 .action{font-weight:700}
-.hint{margin-top:12px;font-family:Arial,sans-serif;font-size:.88rem;line-height:1.45}
-.hint.warn{color:rgba(255,180,100,.92);}
+.hint{margin-top:12px;color:rgba(255,205,205,.86);font-family:Arial,sans-serif;font-size:.88rem;line-height:1.45}
 .sightings-list{display:grid;gap:10px}
-.sighting{padding:12px 0;border-bottom:1px solid rgba(255,72,78,.32);font-family:Arial,sans-serif;line-height:1.45;text-shadow:0 0 12px rgba(0,0,0,.95)}
+.sighting{padding:12px 0;border-bottom:1px solid rgba(255,72,78,.32);font-family:Arial,sans-serif;color:rgba(255,220,220,.96);line-height:1.45;text-shadow:0 0 12px rgba(0,0,0,.95)}
 .sighting strong{color:rgba(255,56,56,.96);font-family:Impact,Haettenschweiler,"Arial Narrow Bold",sans-serif;text-transform:uppercase;letter-spacing:.08em;font-weight:normal}
 .sighting small{display:block;margin-top:4px;color:rgba(215,25,32,.54);letter-spacing:.04em}
 .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:22px;background:rgba(0,0,0,.86);z-index:1000}
 .modal.open{display:flex}
 .modal-box{width:min(760px,96vw);max-height:86vh;overflow:auto;background:linear-gradient(180deg,rgba(8,12,18,.96),rgba(0,0,0,.96));border:1px solid rgba(255,72,78,.72);padding:clamp(20px,4vw,38px);box-shadow:0 0 44px rgba(0,0,0,.9)}
-.modal-box p{font-family:Arial,sans-serif;font-size:clamp(1rem,1.4vw,1.16rem);line-height:1.58;margin:0 0 1.15em}
+.modal-box p{font-family:Arial,sans-serif;font-size:clamp(1rem,1.4vw,1.16rem);line-height:1.58;color:rgba(255,220,220,.96);margin:0 0 1.15em}
 .close-modal{margin-top:14px;float:right}
 .leaflet-popup-content-wrapper,.leaflet-popup-tip{background:rgba(0,0,0,.88);color:rgba(255,64,64,.92);border:1px solid rgba(215,25,32,.38);box-shadow:0 0 20px rgba(0,0,0,.7)}
 .kh-marker{width:16px;height:16px;background:#d71920;border:2px solid rgba(0,0,0,.9);border-radius:50%;box-shadow:0 0 18px rgba(215,25,32,.85)}
@@ -69,15 +64,12 @@ input[readonly]{background:rgba(0,0,0,.86);color:rgba(255,190,190,.98)}
 .action:hover,.filter:hover,.back:hover,.help-button:hover,.legal-links a:hover{color:rgba(255,48,48,.98);}
 .success-panel{display:none;background:rgba(0,0,0,.72);border-top:2px solid rgba(255,72,78,.8);padding:clamp(18px,2.6vw,26px);backdrop-filter:blur(2px);}
 .success-panel.visible{display:block;}
-.success-panel p{font-family:Arial,sans-serif;font-size:1rem;line-height:1.55;margin:0 0 1em;}
-.manual-location{display:none;margin-top:10px;}
-.manual-location.visible{display:block;}
+.success-panel p{font-family:Arial,sans-serif;color:rgba(255,220,220,.96);font-size:1rem;line-height:1.55;margin:0 0 1em;}
 @media (max-width:980px){
   body{background:linear-gradient(180deg,rgba(0,0,0,.58),rgba(0,0,0,.84)),radial-gradient(circle at 50% 24%,rgba(120,160,210,.13),transparent 32%),url("../assets/lake-background.png");background-size:cover;background-position:center top;background-attachment:scroll}
   .page,.lower{display:flex;flex-direction:column}.topline{flex-direction:column}.map-panel,#map{width:100%;min-height:430px}h1{font-size:clamp(2.4rem,12vw,4.4rem)}.legal-links{flex-direction:column;align-items:center;gap:10px}
 }
 @media (max-width:600px){
-  body{font-size:16px}
   .lead,.hint,.sighting,.modal-box p,label,input,select{font-size:1rem;line-height:1.55;}
   input,select{min-height:44px;}
   .action,.filter{font-size:.82rem;line-height:1.25;}
@@ -117,20 +109,13 @@ input[readonly]{background:rgba(0,0,0,.86);color:rgba(255,190,190,.98)}
     <label for="dateInput">Wann?</label>
     <input id="dateInput" type="date">
 
-    <label>Standort</label>
+    <label for="placeInput">Wo wurde Karl-Heinz gesichtet?</label>
+    <input id="placeInput" type="text" placeholder="Ort eingeben oder automatisch bestimmen lassen">
     <div class="button-row">
       <button class="action" id="useLocation" type="button">Automatisch bestimmen</button>
-      <button class="action" id="useManual" type="button">Von Hand eingeben</button>
+      <button class="action" id="clearLocation" type="button">Löschen</button>
     </div>
-
-    <label for="placeAutoInput">Ermittelter Standort</label>
-    <input id="placeAutoInput" type="text" placeholder="Noch nicht bestimmt" readonly>
-
-    <div class="manual-location" id="manualLocationBlock">
-      <label for="placeManualInput">Ort von Hand eingeben</label>
-      <input id="placeManualInput" type="text" placeholder="z. B. Stadtbibliothek Köln, Hauptbahnhof Wien ...">
-      <p class="hint warn" id="locationHelpText"></p>
-    </div>
+    <p class="hint" id="locationHint"></p>
 
     <label for="placeExtraInput">Optionaler Zusatz</label>
     <input id="placeExtraInput" type="text" placeholder="z. B. auf der Parkbank, hinter der Windschutzscheibe ...">
@@ -138,7 +123,6 @@ input[readonly]{background:rgba(0,0,0,.86);color:rgba(255,190,190,.98)}
     <div class="button-row">
       <button class="action" id="prepareSighting" type="button">Sichtung einreichen</button>
     </div>
-    <p class="hint" id="formHint"></p>
   </section>
 
   <section class="success-panel" id="successPanel">
@@ -195,6 +179,8 @@ const requestedPart = urlParams.get("teil");
 let currentFilter = requestedPart && partLabels[requestedPart] ? requestedPart : "all";
 let sightings = [];
 let markers = [];
+let pendingLat = null;
+let pendingLon = null;
 
 const map = L.map("map",{zoomControl:true,scrollWheelZoom:true}).setView([52.2,10.5],4);
 L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",{attribution:"&copy; OpenStreetMap &copy; CARTO",subdomains:"abcd",maxZoom:19}).addTo(map);
@@ -202,49 +188,50 @@ const khIcon = L.divIcon({className:"",html:'<div class="kh-marker"></div>',icon
 
 function formatDate(s){const d=new Date(s+"T00:00:00");return d.toLocaleDateString("de-DE",{day:"2-digit",month:"2-digit",year:"numeric"});}
 function todayISO(){return new Date().toISOString().slice(0,10);}
-function setTodayIfEmpty(){if(!document.getElementById("dateInput").value)document.getElementById("dateInput").value=todayISO();}
-function buildPlaceName(a,b){return b?`${a} — ${b}`:a;}
-function showIncompleteWarning(m){alert(`Eingabe nicht vollständig. Eingetragen werden muss: ${m.join(", ")}.`);}
-function openConfirmModal(t){document.getElementById("confirmText").innerHTML=t;document.getElementById("confirmModal").classList.add("open");document.getElementById("confirmModal").setAttribute("aria-hidden","false");}
-function closeConfirmModal(){document.getElementById("confirmModal").classList.remove("open");document.getElementById("confirmModal").setAttribute("aria-hidden","true");}
-function sightingSentence(item){return `Ein <strong>${partLabels[item.teil]}</strong> ist am ${formatDate(item.created_at)} in der Nähe von ${item.place_name} gesichtet worden.`;}
 function filteredSightings(){const ok=sightings.filter(s=>s.status==="approved");return currentFilter==="all"?ok:ok.filter(s=>s.teil===currentFilter);}
-function renderMap(){markers.forEach(m=>m.remove());markers=[];filteredSightings().forEach(item=>{const m=L.marker([item.lat,item.lon],{icon:khIcon}).bindPopup(`<strong>${partLabels[item.teil]}</strong><br>${item.place_name}<br>${formatDate(item.created_at)}`);m.addTo(map);markers.push(m);});if(markers.length>0){const g=L.featureGroup(markers);map.fitBounds(g.getBounds().pad(.22),{maxZoom:7});}}
-function renderList(){const list=document.getElementById("sightingsList");list.innerHTML=filteredSightings().slice().sort((a,b)=>new Date(b.created_at)-new Date(a.created_at)).map(item=>`<article class="sighting">${sightingSentence(item)}<small>${formatDate(item.created_at)}</small></article>`).join("");}
-function setFilter(f){currentFilter=f;document.querySelectorAll(".filter").forEach(b=>b.classList.toggle("active",b.dataset.filter===f));renderMap();renderList();}
+function sightingSentence(item){return `Ein <strong>${partLabels[item.teil]}</strong> ist am ${formatDate(item.created_at)} in der Nähe von ${item.place_name} gesichtet worden.`;}
+
+function renderMap(){
+  markers.forEach(m=>m.remove());markers=[];
+  filteredSightings().forEach(item=>{
+    const m=L.marker([item.lat,item.lon],{icon:khIcon}).bindPopup(`<strong>${partLabels[item.teil]}</strong><br>${item.place_name}<br>${formatDate(item.created_at)}`);
+    m.addTo(map);markers.push(m);
+  });
+  if(markers.length>0){const g=L.featureGroup(markers);map.fitBounds(g.getBounds().pad(.22),{maxZoom:7});}
+}
+
+function renderList(){
+  const list=document.getElementById("sightingsList");
+  list.innerHTML=filteredSightings().slice().sort((a,b)=>new Date(b.created_at)-new Date(a.created_at))
+    .map(item=>`<article class="sighting">${sightingSentence(item)}<small>${formatDate(item.created_at)}</small></article>`).join("");
+}
+
+function setFilter(f){
+  currentFilter=f;
+  document.querySelectorAll(".filter").forEach(b=>b.classList.toggle("active",b.dataset.filter===f));
+  renderMap();renderList();
+}
 
 document.querySelectorAll(".filter").forEach(b=>b.addEventListener("click",()=>setFilter(b.dataset.filter)));
 document.getElementById("openInfo").addEventListener("click",()=>document.getElementById("infoModal").classList.add("open"));
 document.getElementById("closeInfo").addEventListener("click",()=>document.getElementById("infoModal").classList.remove("open"));
 document.getElementById("infoModal").addEventListener("click",(e)=>{if(e.target.id==="infoModal")document.getElementById("infoModal").classList.remove("open");});
 
-function getLocationDeniedMessage(){
-  if(/iPad|iPhone|iPod/.test(navigator.userAgent)){
-    return "Standortzugriff verweigert. Auf iPhone/iPad: Einstellungen → Datenschutz & Sicherheit → Ortungsdienste → Safari → „Beim Verwenden der App" auswählen. Oder oben „Von Hand eingeben" nutzen.";
-  }
-  return "Standort konnte nicht ermittelt werden. Bitte Standortfreigabe im Browser prüfen. Oder oben „Von Hand eingeben" nutzen.";
-}
-
-function showManualBlock(message){
-  document.getElementById("manualLocationBlock").classList.add("visible");
-  if(message) document.getElementById("locationHelpText").textContent=message;
-}
-
-// Automatische Standortbestimmung
+// Automatisch bestimmen: füllt das Textfeld, überschreibt was drin steht
 document.getElementById("useLocation").addEventListener("click",()=>{
-  const hint=document.getElementById("formHint");
-  const placeAutoInput=document.getElementById("placeAutoInput");
+  const hint=document.getElementById("locationHint");
+  const placeInput=document.getElementById("placeInput");
   if(!navigator.geolocation){
-    showManualBlock("Dieser Browser unterstützt keine Standortbestimmung. Bitte von Hand eingeben.");
+    hint.textContent="Standortbestimmung wird von diesem Browser nicht unterstützt. Bitte manuell eingeben.";
     return;
   }
   hint.textContent="Karl-Heinz fragt den Kompass. Einen Moment ...";
   navigator.geolocation.getCurrentPosition(async pos=>{
-    window.pendingLat=pos.coords.latitude;
-    window.pendingLon=pos.coords.longitude;
-    let label=`${window.pendingLat.toFixed(5)}, ${window.pendingLon.toFixed(5)}`;
+    pendingLat=pos.coords.latitude;
+    pendingLon=pos.coords.longitude;
+    let label=`${pendingLat.toFixed(5)}, ${pendingLon.toFixed(5)}`;
     try{
-      const r=await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${encodeURIComponent(window.pendingLat)}&lon=${encodeURIComponent(window.pendingLon)}&zoom=16&addressdetails=1`);
+      const r=await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${encodeURIComponent(pendingLat)}&lon=${encodeURIComponent(pendingLon)}&zoom=16&addressdetails=1`);
       if(r.ok){
         const d=await r.json();
         const a=d.address||{};
@@ -254,41 +241,42 @@ document.getElementById("useLocation").addEventListener("click",()=>{
         label=[(road+house).trim(),town].filter(Boolean).join(", ")||d.display_name||label;
       }
     }catch(e){console.warn(e);}
-    placeAutoInput.value=label;
-    hint.textContent="Standort übernommen. Optional kannst du noch ergänzen, wo Karl-Heinz genau herumlag.";
+    placeInput.value=label;
+    hint.textContent="Standort eingetragen. Du kannst ihn oben im Feld noch bearbeiten.";
   },()=>{
-    hint.textContent="";
-    showManualBlock(getLocationDeniedMessage());
+    pendingLat=null;pendingLon=null;
+    if(/iPad|iPhone|iPod/.test(navigator.userAgent)){
+      hint.textContent="Standortzugriff verweigert. Auf iPhone: Einstellungen → Datenschutz & Sicherheit → Ortungsdienste → Safari → \"Beim Verwenden\" auswählen. Oder Ort oben manuell eingeben.";
+    } else {
+      hint.textContent="Standort konnte nicht ermittelt werden. Bitte Standortfreigabe im Browser prüfen, oder Ort manuell eingeben.";
+    }
   },{enableHighAccuracy:false,timeout:8000,maximumAge:60000});
 });
 
-// Manuelle Eingabe
-document.getElementById("useManual").addEventListener("click",()=>{
-  document.getElementById("placeAutoInput").value="";
-  window.pendingLat=null;
-  window.pendingLon=null;
-  document.getElementById("formHint").textContent="";
-  showManualBlock("");
-  document.getElementById("placeManualInput").focus();
+// Löschen: leert Textfeld und Koordinaten
+document.getElementById("clearLocation").addEventListener("click",()=>{
+  document.getElementById("placeInput").value="";
+  document.getElementById("locationHint").textContent="";
+  pendingLat=null;
+  pendingLon=null;
 });
 
 let pendingSighting=null;
 
+function openConfirmModal(t){document.getElementById("confirmText").innerHTML=t;document.getElementById("confirmModal").classList.add("open");document.getElementById("confirmModal").setAttribute("aria-hidden","false");}
+function closeConfirmModal(){document.getElementById("confirmModal").classList.remove("open");document.getElementById("confirmModal").setAttribute("aria-hidden","true");}
+
 document.getElementById("prepareSighting").addEventListener("click",()=>{
   const teil=document.getElementById("teilSelect").value;
-  const autoPlace=document.getElementById("placeAutoInput").value.trim();
-  const manualPlace=document.getElementById("placeManualInput").value.trim();
-  const extraPlace=document.getElementById("placeExtraInput").value.trim();
+  const place=document.getElementById("placeInput").value.trim();
+  const extra=document.getElementById("placeExtraInput").value.trim();
   const date=document.getElementById("dateInput").value;
-  const hasAuto=autoPlace && window.pendingLat && window.pendingLon;
-  const hasManual=manualPlace.length>0;
   const missing=[];
-  if(!teil) missing.push("Karl-Heinz-Teil");
   if(!date) missing.push("Datum");
-  if(!hasAuto && !hasManual) missing.push("Standort (automatisch oder von Hand)");
-  if(missing.length){showIncompleteWarning(missing);return;}
-  if(!hasAuto){window.pendingLat=null;window.pendingLon=null;}
-  pendingSighting={teil,lat:window.pendingLat,lon:window.pendingLon,place_name:buildPlaceName(hasAuto?autoPlace:manualPlace,extraPlace),created_at:date};
+  if(!place) missing.push("Ort");
+  if(missing.length){alert(`Bitte noch ausfüllen: ${missing.join(", ")}.`);return;}
+  const fullPlace=extra?`${place} — ${extra}`:place;
+  pendingSighting={teil,lat:pendingLat,lon:pendingLon,place_name:fullPlace,created_at:date};
   openConfirmModal(`So würde die Sichtung eingereicht:<br><br>${sightingSentence(pendingSighting)}<br><br>Wenn das doof aussieht: zurück und korrigieren.`);
 });
 
@@ -310,10 +298,10 @@ document.getElementById("confirmPublish").addEventListener("click",async()=>{
       document.getElementById("formPanel").style.display="none";
       document.getElementById("successPanel").classList.add("visible");
     }else{
-      document.getElementById("formHint").textContent="Etwas ist schiefgelaufen. Bitte versuche es erneut.";
+      document.getElementById("locationHint").textContent="Etwas ist schiefgelaufen. Bitte versuche es erneut.";
     }
   }catch(e){
-    document.getElementById("formHint").textContent="Verbindungsfehler. Bitte versuche es erneut.";
+    document.getElementById("locationHint").textContent="Verbindungsfehler. Bitte versuche es erneut.";
     console.error(e);
   }
   pendingSighting=null;
@@ -341,7 +329,7 @@ async function loadSightings(){
   }
 }
 
-setTodayIfEmpty();
+if(!document.getElementById("dateInput").value) document.getElementById("dateInput").value=todayISO();
 loadSightings();
 </script>
 </body>
