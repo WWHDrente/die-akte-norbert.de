@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Datenschutz – Die Akte Norbert</title>
+  <meta name="description" content="Datenschutzhinweise zur Website Die Akte Norbert." />
+  <meta name="robots" content="noindex,nofollow" />
+  <link rel="icon" type="image/png" href="assets/favicon.png" />
+
+  <style>
+    :root {
+      --red: #d71920;
+      --red-soft: rgba(215, 25, 32, 0.82);
+      --red-dim: rgba(215, 25, 32, 0.54);
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      background: #000;
+      color: var(--red);
+    }
+
+    body {
+      min-height: 100vh;
+      overflow-x: hidden;
+      font-family: Arial, sans-serif;
+      background:
+        linear-gradient(90deg, rgba(0,0,0,0.74), rgba(0,0,0,0.36) 48%, rgba(0,0,0,0.78)),
+        radial-gradient(circle at 72% 30%, rgba(215,25,32,0.10), transparent 32%),
+        linear-gradient(180deg, rgba(0,0,0,0.22), rgba(0,0,0,0.82)),
+        url("assets/wald-background.png");
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+    }
+
+    .page {
+      width: min(980px, 100%);
+      margin: 0 auto;
+      padding: clamp(22px, 4vw, 56px) clamp(18px, 5vw, 74px) clamp(54px, 8vw, 110px);
+    }
+
+    .topline {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: flex-start;
+      margin-bottom: clamp(34px, 7vh, 90px);
+    }
+
+    .back {
+      color: var(--red-soft);
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-size: 0.86rem;
+      border-bottom: 1px solid rgba(215, 25, 32, 0.65);
+      padding-bottom: 5px;
+      text-shadow: 0 0 12px rgba(0,0,0,0.95);
+    }
+
+    .back:hover { color: rgba(255, 44, 44, 0.98); }
+
+    h1, h2 {
+      font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+      text-transform: uppercase;
+      font-weight: normal;
+      color: var(--red);
+      text-shadow: 0 0 16px rgba(215,25,32,.20), 0 0 24px rgba(0,0,0,.95);
+    }
+
+    h1 {
+      margin: 0 0 30px;
+      font-size: clamp(2.4rem, 7vw, 5.8rem);
+      line-height: 0.95;
+      letter-spacing: 0.045em;
+    }
+
+    h2 {
+      margin: 34px 0 12px;
+      font-size: clamp(1.28rem, 3vw, 2rem);
+      letter-spacing: 0.08em;
+    }
+
+    .content {
+      background: rgba(0,0,0,0.48);
+      border-left: 1px solid rgba(215,25,32,0.28);
+      padding: clamp(20px, 4vw, 42px);
+      backdrop-filter: blur(2px);
+    }
+
+    p, li {
+      color: rgba(215,25,32,0.84);
+      font-size: clamp(1rem, 1.45vw, 1.14rem);
+      line-height: 1.62;
+      text-shadow: 0 0 12px rgba(0,0,0,0.95);
+    }
+
+    p { margin: 0 0 1.15em; }
+
+    ul {
+      margin: 0 0 1.3em 1.2em;
+      padding: 0;
+    }
+
+    li { margin-bottom: .45em; }
+
+    .dim {
+      color: var(--red-dim);
+      font-size: .95rem;
+      margin-top: 34px;
+    }
+
+    @media (max-width: 700px) {
+      body {
+        background:
+          linear-gradient(180deg, rgba(0,0,0,0.60), rgba(0,0,0,0.84)),
+          radial-gradient(circle at 50% 26%, rgba(215,25,32,0.10), transparent 34%),
+          url("assets/wald-background.png");
+        background-size: cover;
+        background-position: center top;
+        background-attachment: scroll;
+      }
+
+      .topline {
+        flex-direction: column;
+        margin-bottom: 28px;
+      }
+
+      .content {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page">
+    <div class="topline">
+      <a class="back" href="index.html">← Zurück zur Akte</a>
+    </div>
+
+    <section class="content">
+      <h1>Datenschutz</h1>
+
+      <p>Diese Website ist ein statisches Autoren- und Buchprojekt. Sie verwendet derzeit keine Analysewerkzeuge, kein Werbetracking, keine Newsletter-Anmeldung, keine Nutzerkonten und keine Cookies zu Marketingzwecken.</p>
+
+      <h2>Verantwortlicher</h2>
+      <p>Verantwortlich für diese Website ist die im Impressum genannte Person. Das Impressum ist über die Startseite erreichbar.</p>
+
+      <h2>Hosting und Server-Logfiles</h2>
+      <p>Diese Website wird bei Netlify gehostet. Beim Aufruf der Website werden technisch notwendige Daten verarbeitet, damit die Seite ausgeliefert und stabil betrieben werden kann. Dazu können insbesondere gehören:</p>
+      <ul>
+        <li>IP-Adresse des zugreifenden Geräts,</li>
+        <li>Datum und Uhrzeit des Abrufs,</li>
+        <li>aufgerufene Datei oder Seite,</li>
+        <li>Browsertyp und Browserversion,</li>
+        <li>verwendetes Betriebssystem,</li>
+        <li>Referrer-URL, sofern diese übertragen wird.</li>
+      </ul>
+      <p>Die Verarbeitung erfolgt zur technischen Bereitstellung, Sicherheit und Stabilität der Website. Eine Auswertung zu Marketingzwecken findet durch den Betreiber dieser Website nicht statt.</p>
+
+      <h2>Cookies und Tracking</h2>
+      <p>Diese Website setzt derzeit keine eigenen Cookies und verwendet keine Tracking- oder Analysewerkzeuge wie Google Analytics.</p>
+
+      <h2>Kontaktaufnahme</h2>
+      <p>Wenn Sie per E-Mail Kontakt aufnehmen, werden die von Ihnen übermittelten Angaben verarbeitet, um die Anfrage zu beantworten. Diese Daten werden nicht ohne Anlass an Dritte weitergegeben.</p>
+
+      <h2>Karl-Heinz-Modus und Sichtungsmeldungen</h2>
+      <p>Für den geplanten Karl-Heinz-Modus können Sichtungen von Büchern eingetragen werden. Vorgesehen ist die Verarbeitung von Angaben wie Buchteil, Fundort, Datum und optionalem Kommentar.</p>
+      <p>Es ist nicht vorgesehen, Namen, E-Mail-Adressen oder Nutzerkonten für Sichtungsmeldungen zu erfassen. Bei Nutzung einer Standortfunktion fragt der Browser vorher um Erlaubnis. Eine Standortübermittlung erfolgt nur, wenn diese aktiv bestätigt wird.</p>
+      <p>Die auf der Karte angezeigten Fundorte können gerundet oder verallgemeinert dargestellt werden.</p>
+
+      <h2>Kartendarstellung</h2>
+      <p>Für die spätere Kartendarstellung können Kartendaten eines externen Kartendienstes eingebunden werden. Beim Laden solcher Karten können technisch notwendige Daten, insbesondere die IP-Adresse, an den jeweiligen Kartendienst übertragen werden. Sobald die Karte produktiv genutzt wird, wird diese Datenschutzerklärung entsprechend konkretisiert.</p>
+
+      <h2>Externe Links</h2>
+      <p>Diese Website kann Links zu externen Seiten enthalten. Für die Inhalte und Datenverarbeitung auf externen Websites ist der jeweilige Anbieter verantwortlich.</p>
+
+      <h2>Rechte betroffener Personen</h2>
+      <p>Betroffene Personen haben nach Maßgabe der gesetzlichen Vorschriften insbesondere Rechte auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Datenübertragbarkeit und Widerspruch.</p>
+      <p>Außerdem besteht das Recht, sich bei einer zuständigen Datenschutzaufsichtsbehörde zu beschweren.</p>
+
+      <h2>Änderungen</h2>
+      <p>Diese Datenschutzerklärung kann angepasst werden, wenn sich die Website oder die eingesetzten technischen Dienste ändern.</p>
+
+      <p class="dim">Stand: Juni 2026</p>
+    </section>
+  </main>
+</body>
+</html>

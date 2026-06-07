@@ -1,0 +1,17 @@
+[
+  { "id": 1,  "teil": "teil1", "lat": 52.2296, "lon": 10.5199, "place_name": "Leipziger Straße 84, Braunschweig",                           "created_at": "1991-10-04", "source": "manual", "status": "approved" },
+  { "id": 2,  "teil": "teil2", "lat": 53.4653, "lon": 10.0616, "place_name": "Elbdeich 222, Bullenhausen",                                   "created_at": "1999-09-01", "source": "manual", "status": "approved" },
+  { "id": 3,  "teil": "teil3", "lat": 50.8267, "lon": 6.9726,  "place_name": "Entenfang, Wesseling",                                         "created_at": "2004-11-01", "source": "manual", "status": "approved" },
+  { "id": 4,  "teil": "teil4", "lat": 39.4702, "lon": -0.3768, "place_name": "Avenida Blasco Ibáñez, Valencia",                              "created_at": "1995-10-04", "source": "manual", "status": "approved" },
+  { "id": 5,  "teil": "teil5", "lat": 42.7048, "lon": -73.911, "place_name": "222 Heritage Rd, Guilderland",                                 "created_at": "2015-04-01", "source": "manual", "status": "approved" },
+  { "id": 6,  "teil": "teil1", "lat": 55.7936, "lon": 37.4896, "place_name": "ул. Расплетина 12, Москва",                                   "created_at": "2012-01-01", "source": "manual", "status": "approved" },
+  { "id": 7,  "teil": "teil2", "lat": 54.1729, "lon": 10.5589, "place_name": "Wilhelminenstraße 7, Malente",                                 "created_at": "2018-09-01", "source": "manual", "status": "approved" },
+  { "id": 8,  "teil": "teil3", "lat": 48.2082, "lon": 16.3738, "place_name": "am falschen Donauufer, Wien",                                  "created_at": "2020-02-29", "source": "manual", "status": "approved" },
+  { "id": 9,  "teil": "teil4", "lat": 64.1466, "lon": -21.9426,"place_name": "neben einem sehr schweigsamen Hotdogstand, Reykjavík",         "created_at": "2021-12-24", "source": "manual", "status": "approved" },
+  { "id": 10, "teil": "teil5", "lat": 35.6895, "lon": 139.6917,"place_name": "zwischen zwei Getränkeautomaten, Tokio",                      "created_at": "2022-07-13", "source": "manual", "status": "approved" },
+  { "id": 11, "teil": "teil1", "lat": 59.9139, "lon": 10.7522, "place_name": "unter Verdacht, Oslo",                                         "created_at": "2023-03-18", "source": "manual", "status": "approved" },
+  { "id": 12, "teil": "teil2", "lat": 41.9028, "lon": 12.4964, "place_name": "bei einem ungeklärten Espresso, Rom",                          "created_at": "2023-10-05", "source": "manual", "status": "approved" },
+  { "id": 13, "teil": "teil3", "lat": 52.52,   "lon": 13.405,  "place_name": "in der Nähe einer zu selbstbewussten Currywurst, Berlin",      "created_at": "2024-04-01", "source": "manual", "status": "approved" },
+  { "id": 14, "teil": "teil4", "lat": 48.8566, "lon": 2.3522,  "place_name": "nicht am Eiffelturm, Paris",                                   "created_at": "2024-08-15", "source": "manual", "status": "approved" },
+  { "id": 15, "teil": "teil5", "lat": 57.1497, "lon": -2.0943, "place_name": "in einem Pub, der behauptet, geschlossen zu sein, Aberdeen",   "created_at": "2025-01-11", "source": "manual", "status": "approved" }
+]

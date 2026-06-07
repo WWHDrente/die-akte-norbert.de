@@ -1,0 +1,441 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Die Akte Norbert – Bald auf dem See, dem Wald und am Tresen</title>
+  <link rel="icon" type="image/png" href="assets/favicon.png" />
+
+  <style>
+    :root{
+      --red:#d71920;
+      --red-soft:rgba(215,25,32,.78);
+    }
+
+    *{ box-sizing:border-box; }
+
+    html, body{
+      margin:0;
+      min-height:100%;
+      background:#000;
+      color:var(--red);
+    }
+
+    body{
+      min-height:100vh;
+      overflow-x:hidden;
+      font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+      background:
+        linear-gradient(90deg, rgba(0,0,0,.66), rgba(0,0,0,.22) 48%, rgba(0,0,0,.70)),
+        radial-gradient(circle at 78% 62%, rgba(215,25,32,.12), transparent 32%),
+        linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,.78)),
+        url("assets/wald-background.png");
+      background-size:cover;
+      background-position:center center;
+      background-attachment:fixed;
+    }
+
+    .page{
+      min-height:100vh;
+      width:min(1320px, 100%);
+      margin:0 auto;
+      padding: clamp(18px,3vw,42px) clamp(18px,4vw,70px) clamp(60px,8vw,120px);
+      display:grid;
+      grid-template-columns: minmax(320px, 720px) minmax(240px, 1fr);
+      gap:clamp(30px,5vw,90px);
+      position:relative;
+    }
+
+    .lang{
+      grid-column:1 / 3;
+      display:flex;
+      gap:16px;
+      flex-wrap:wrap;
+      margin-bottom:clamp(30px,5vh,80px);
+      z-index:10;
+    }
+
+    .lang button{
+      appearance:none;
+      border:0;
+      background:transparent;
+      color:var(--red-soft);
+      cursor:pointer;
+      font-family:Arial,sans-serif;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      font-size:.9rem;
+      padding:0;
+      text-shadow:0 0 8px rgba(215,25,32,.45), 0 0 16px rgba(0,0,0,.85);
+    }
+
+    .lang button.active,
+    .lang button:hover{
+      color:rgba(255,44,44,.98);
+    }
+
+    .content{
+      grid-column:1 / 2;
+      max-width:720px;
+      align-self:start;
+    }
+
+    h1{
+      margin:0 0 34px;
+      color:#d71920;
+      text-transform:uppercase;
+      font-size:clamp(2.2rem,6vw,5.4rem);
+      line-height:.95;
+      letter-spacing:.035em;
+      text-shadow:0 0 16px rgba(215,25,32,.24), 0 0 24px rgba(0,0,0,.9);
+    }
+
+    .tagline{
+      font-size:clamp(1.1rem,2vw,1.7rem);
+      color:var(--red-soft);
+      margin-bottom:36px;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      text-shadow:0 0 12px rgba(0,0,0,.9);
+    }
+
+    .text{
+      max-width:620px;
+      color:rgba(215,25,32,.86);
+      font-family:Arial, sans-serif;
+      font-size:clamp(1rem,1.25vw,1.2rem);
+      line-height:1.62;
+      letter-spacing:.02em;
+      text-shadow:0 0 12px rgba(0,0,0,.95);
+    }
+
+    .text p{ margin:0 0 1.25em; }
+
+    .closing{
+      margin-top:38px;
+      font-family:Arial, sans-serif;
+      font-size:clamp(1rem,1.35vw,1.28rem);
+      line-height:1.55;
+      color:#d71920;
+      text-shadow:0 0 12px rgba(0,0,0,.95);
+    }
+
+    .foreign-note{
+      display:none;
+      margin-top:34px;
+      font-family:Arial,sans-serif;
+      font-size:.95rem;
+      color:rgba(215,25,32,.70);
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      text-shadow:0 0 12px rgba(0,0,0,.95);
+    }
+
+    .bosch{
+      grid-column:2 / 3;
+      align-self:end;
+      justify-self:center;
+      width:min(520px,100%);
+      opacity:.78;
+      mix-blend-mode:screen;
+      transform:translateY(40px);
+    }
+
+    .back{
+      position:fixed;
+      right:26px;
+      bottom:22px;
+      color:rgba(215,25,32,.76);
+      text-decoration:none;
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      font-size:.92rem;
+      text-shadow:0 0 12px rgba(0,0,0,.95);
+      border-bottom:1px solid rgba(215,25,32,.55);
+      padding-bottom:4px;
+    }
+
+    .back:hover{ color:rgba(255,44,44,.98); }
+
+    @media (max-width: 980px){
+      body{
+        background:
+          linear-gradient(180deg, rgba(0,0,0,.56), rgba(0,0,0,.82)),
+          radial-gradient(circle at 50% 30%, rgba(215,25,32,.10), transparent 34%),
+          url("assets/wald-background.png");
+        background-size:cover;
+        background-position:center top;
+        background-attachment:scroll;
+      }
+
+      .page{
+        display:flex;
+        flex-direction:column;
+        padding:18px 18px 76px;
+      }
+
+      .lang{
+        justify-content:center;
+        margin-bottom:30px;
+      }
+
+      .content{
+        max-width:100%;
+      }
+
+      .bosch{
+        width:min(72vw,430px);
+        opacity:.62;
+        transform:none;
+        margin:0 auto;
+      }
+
+      .back{
+        right:18px;
+        bottom:14px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page">
+    <nav class="lang" aria-label="Sprachauswahl">
+      <button data-lang="de" class="active" type="button">DE</button>
+      <button data-lang="en" type="button">EN</button>
+      <button data-lang="es" type="button">ES</button>
+      <button data-lang="ru" type="button">РУ</button>
+      <button data-lang="lat" type="button">LAT</button>
+      <button data-lang="quak" type="button">QUAK</button>
+    </nav>
+
+    <section class="content">
+      <h1 id="headline"></h1>
+      <div class="tagline" id="tagline"></div>
+      <div class="text" id="bookText"></div>
+      <div class="closing" id="closing"></div>
+      <div class="foreign-note" id="foreignNote"></div>
+    </section>
+
+    <img class="bosch" src="assets/bosch-norbert.png" alt="Bosch-Norbert" />
+  </main>
+
+  <a class="back" id="backLink" href="index.html?lang=de">← Zurück</a>
+
+  <script>
+    const translations = {
+      de: {
+        htmlLang:'de',
+        headline:'Bald auf dem See,<br>im Wald und am Tresen',
+        tagline:'Malente ist überall.',
+        text: `
+          <p>Eine griechische Göttin.<br>
+          Ihr Wald, in dem Förster verschwinden.<br>
+          Die Zeit vergeht.</p>
+
+          <p>Dann weigern sich Enten, aus dem Fluss Lethe zu trinken.</p>
+
+          <p>Charon schwingt das Paddel.<br>
+          Hephaistos produziert nur noch Mist.<br>
+          Und irgendjemand ist der Meinung,<br>
+          da muss Ordnung in den Laden.</p>
+
+          <p>Auch Polizist Kuhn versucht es.<br>
+          Er versteht aber nichts.</p>
+
+          <p>Und dann kommt ein neuer Förster.<br>
+          Ohne Jagdschein.<br>
+          Und sprengt die Forstbehörde in die Luft.</p>
+        `,
+        closing:'<b>Die Akte Norbert</b> ist ein Roman über das, was passiert, wenn die Realität aufhört, Rücksicht auf Zuständigkeiten zu nehmen.',
+        note:'',
+        back:'← Zurück'
+      },
+
+      en: {
+        htmlLang:'en',
+        headline:'Soon on the Lake,<br>in the Forest and at the Bar',
+        tagline:'Malente is everywhere.',
+        text: `
+          <p>A Greek goddess.<br>
+          Her forest, where foresters disappear.<br>
+          Time passes.</p>
+
+          <p>Then ducks refuse to drink from the river Lethe.</p>
+
+          <p>Charon swings the paddle.<br>
+          Hephaestus produces nothing but rubbish.<br>
+          And someone decides<br>
+          that order has to be restored.</p>
+
+          <p>Police officer Kuhn tries as well.<br>
+          He understands nothing.</p>
+
+          <p>And then a new forester arrives.<br>
+          Without a hunting licence.<br>
+          And blows up the forestry office.</p>
+        `,
+        closing:'<b>The Norbert Files</b> is a novel about what happens when reality stops taking jurisdiction into account.',
+        note:'For now only available in German.',
+        back:'← Back'
+      },
+
+      es: {
+        htmlLang:'es',
+        headline:'Pronto en el lago,<br>el bosque y el bar',
+        tagline:'Malente está en todas partes.',
+        text: `
+          <p>Una diosa griega.<br>
+          Su bosque, en el que desaparecen guardabosques.<br>
+          El tiempo pasa.</p>
+
+          <p>Entonces los patos se niegan a beber del río Leteo.</p>
+
+          <p>Caronte agita el remo.<br>
+          Hefesto ya solo produce basura.<br>
+          Y alguien opina<br>
+          que hay que poner orden en el asunto.</p>
+
+          <p>También lo intenta el policía Kuhn.<br>
+          Pero no entiende nada.</p>
+
+          <p>Y entonces llega un nuevo guardabosques.<br>
+          Sin licencia de caza.<br>
+          Y hace volar por los aires la autoridad forestal.</p>
+        `,
+        closing:'<b>El expediente Norbert</b> es una novela sobre lo que pasa cuando la realidad deja de respetar las competencias administrativas.',
+        note:'Por ahora solo disponible en alemán.',
+        back:'← Volver'
+      },
+
+      ru: {
+        htmlLang:'ru',
+        headline:'Скоро на озере,<br>в лесу и у стойки',
+        tagline:'Маленте повсюду.',
+        text: `
+          <p>Греческая богиня.<br>
+          Её лес, в котором исчезают лесники.<br>
+          Время идёт.</p>
+
+          <p>Потом утки отказываются пить из реки Леты.</p>
+
+          <p>Харон размахивает веслом.<br>
+          Гефест производит одну ерунду.<br>
+          И кто-то считает,<br>
+          что пора навести порядок.</p>
+
+          <p>Полицейский Кун тоже пытается.<br>
+          Но он ничего не понимает.</p>
+
+          <p>А затем появляется новый лесник.<br>
+          Без охотничьего билета.<br>
+          И взрывает лесное ведомство.</p>
+        `,
+        closing:'<b>Дело Норберта</b> — это роман о том, что происходит, когда реальность перестаёт считаться с зонами ответственности.',
+        note:'Пока только на немецком.',
+        back:'← Назад'
+      },
+
+      lat: {
+        htmlLang:'la',
+        headline:'Mox ad lacum,<br>silvam et tabernam',
+        tagline:'Malente ubique est.',
+        text: `
+          <p>Dea Graeca.<br>
+          Silva eius, in qua magistri silvarum evanescunt.<br>
+          Tempus transit.</p>
+
+          <p>Tum anates recusant ex flumine Lethe bibere.</p>
+
+          <p>Charon remum vibrat.<br>
+          Hephaestus iam nihil nisi ineptias fabricatur.<br>
+          Et aliquis censet<br>
+          ordinem in hac re constituendum esse.</p>
+
+          <p>Etiam vigil Kuhn conatur.<br>
+          Sed nihil intellegit.</p>
+
+          <p>Deinde novus custos silvae advenit.<br>
+          Sine licentia venandi.<br>
+          Et officium silvestre in aera disicit.</p>
+        `,
+        closing:'<b>Acta Norberti</b> liber est de eo quod fit, cum realitas desinit competentias administrativas observare.',
+        note:'Adhuc tantum lingua Germanica praesto est.',
+        back:'← Redire'
+      },
+
+      quak: {
+        htmlLang:'de',
+        headline:'QUAK AUF DEM QUAK,<br>DEM WALDQUAK UND TRESENQUAK',
+        tagline:'MALENTE QUAK ÜBERQUAK.',
+        text: `
+          <p>Eine griechische Quake.<br>
+          Wald da.<br>
+          Förster weg-quak.<br>
+          Zeit: doppel-quak.</p>
+
+          <p>Enten trinken Quak nichtquak.</p>
+
+          <p>Charon paddelt quak.<br>
+          Paddel quakt zurück.<br>
+          Hephaistos produziert Quak-O-Maten.<br>
+          Irgendwer quakt Ordnung<br>
+          in den Quak-Laden.</p>
+
+          <p>Kuhn polizeiquakt dagegen.<br>
+          Versteht aber:<br>
+          quak.</p>
+
+          <p>Neuer Förster kommt-quak.<br>
+          Kein Quakschein.<br>
+          Behörde macht:<br>
+          bumm-quak.</p>
+
+          <p>Realität quakt keine<br>
+          Zuständiquaksicht mehr.</p>
+
+          <p>Alles Wald.<br>
+          Alles See.<br>
+          Alles Quak.</p>
+        `,
+        closing:'<b>DIE AKTE NORBERT</b> IST QUAK.',
+        note:'Vorquak nur auf quak.',
+        back:'← ZURÜCKQUAK'
+      }
+    };
+
+    const params = new URLSearchParams(window.location.search);
+    const storedLang = localStorage.getItem('norbertLang');
+    const initialLang = params.get('lang') || storedLang || 'de';
+
+    const headline = document.getElementById('headline');
+    const tagline = document.getElementById('tagline');
+    const bookText = document.getElementById('bookText');
+    const closing = document.getElementById('closing');
+    const foreignNote = document.getElementById('foreignNote');
+    const backLink = document.getElementById('backLink');
+    const buttons = document.querySelectorAll('.lang button');
+
+    function setLang(lang){
+      const t = translations[lang] || translations.de;
+      document.documentElement.lang = t.htmlLang;
+      headline.innerHTML = t.headline;
+      tagline.innerHTML = t.tagline;
+      bookText.innerHTML = t.text;
+      closing.innerHTML = t.closing;
+      foreignNote.textContent = t.note;
+      foreignNote.style.display = lang === 'de' ? 'none' : 'block';
+      backLink.textContent = t.back;
+      backLink.href = `index.html?lang=${encodeURIComponent(lang)}`;
+      localStorage.setItem('norbertLang', lang);
+      buttons.forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
+    }
+
+    buttons.forEach(button => {
+      button.addEventListener('click', () => setLang(button.dataset.lang));
+    });
+
+    setLang(translations[initialLang] ? initialLang : 'de');
+  </script>
+</body>
+</html>

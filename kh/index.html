@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bücher im Karl-Heinz-Modus</title>
+<meta name="description" content="Die Karte der freilaufenden Karl-Heinz-Bücher aus Die Akte Norbert." />
+<meta name="robots" content="noindex,nofollow" />
+<link rel="icon" type="image/png" href="../assets/KH-favicon.png" />
+<link rel="apple-touch-icon" href="../assets/KH-favicon.png" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+:root{--red:#ff3038;--red-soft:rgba(255,72,78,.94);--panel:rgba(0,0,0,.78)}
+
+h1,h2,.sighting strong{
+  font-family:Impact,Haettenschweiler,"Arial Narrow Bold",sans-serif;
+}
+.lead,.hint,.sighting,.modal-box p,label{
+  color:rgba(255,220,220,.96);
+}
+input,select{
+  color:rgba(255,235,235,.98);
+}
+.sighting strong{
+  color:#ff3038;
+}
+
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:#000;color:var(--red)}
+body{
+  min-height:100vh;overflow-x:hidden;
+  font-family:Arial,Helvetica,sans-serif;
+  background:
+    linear-gradient(90deg,rgba(0,0,0,.72),rgba(0,0,0,.24) 48%,rgba(0,0,0,.76)),
+    radial-gradient(circle at 52% 24%,rgba(120,160,210,.16),transparent 28%),
+    linear-gradient(180deg,rgba(0,0,0,.10),rgba(0,0,0,.84)),
+    url("../assets/lake-background.png");
+  background-size:cover;background-position:center center;background-attachment:fixed;
+}
+.page{min-height:100vh;width:min(1420px,100%);margin:0 auto;padding:clamp(18px,3vw,42px);display:grid;grid-template-columns:minmax(320px,460px) minmax(0,1fr);gap:clamp(22px,3vw,44px)}
+.legal-links{grid-column:1/3;display:flex;justify-content:center;gap:22px;margin-top:10px;padding-bottom:12px}
+.legal-links a{color:var(--red-soft);text-decoration:none;text-transform:uppercase;letter-spacing:.16em;font-family:Arial,sans-serif;font-size:.76rem;border-bottom:1px solid rgba(215,25,32,.45);padding-bottom:4px;text-shadow:0 0 12px rgba(0,0,0,.9)}
+.legal-links a:hover{color:rgba(255,48,48,.98)}
+.topline{grid-column:1/3;display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin-bottom:clamp(14px,2vh,28px)}
+.back,.help-button{color:var(--red-soft);text-decoration:none;text-transform:uppercase;letter-spacing:.16em;font-family:Arial,sans-serif;font-size:.82rem;text-shadow:0 0 12px rgba(0,0,0,.9)}
+.back{border-bottom:1px solid rgba(215,25,32,.55);padding-bottom:4px}
+.help-button{appearance:none;border:1px solid rgba(215,25,32,.55);background:rgba(0,0,0,.68);cursor:pointer;padding:8px 12px}
+.back:hover,.help-button:hover{color:rgba(255,48,48,.98)}
+.intro{grid-column:1/2;align-self:start;background:linear-gradient(180deg,rgba(0,0,0,.78),rgba(0,0,0,.62));border-left:1px solid rgba(255,72,78,.62);padding:clamp(18px,3vw,26px);backdrop-filter:blur(2px)}
+h1{margin:0 0 18px;text-transform:uppercase;font-size:clamp(2.4rem,4.8vw,5.2rem);line-height:.92;letter-spacing:.035em;color:var(--red);text-shadow:0 0 18px rgba(215,25,32,.22),0 0 28px rgba(0,0,0,.95)}
+.lead{font-family:Arial,sans-serif;font-size:clamp(1rem,1.4vw,1.22rem);line-height:1.55;color:rgba(255,220,220,.96);text-shadow:0 0 12px rgba(0,0,0,.95);margin:0 0 20px}
+.controls{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 0}
+.filter,.action{appearance:none;border:1px solid rgba(255,72,78,.72);background:rgba(0,0,0,.70);color:var(--red-soft);cursor:pointer;font-family:Arial,sans-serif;text-transform:uppercase;letter-spacing:.10em;font-size:.72rem;padding:8px 10px}
+.filter.active,.filter:hover,.action:hover{color:rgba(255,48,48,.98);border-color:rgba(255,48,48,.82);background:rgba(215,25,32,.12)}
+.map-panel{grid-column:2/3;min-height:520px;background:rgba(0,0,0,.55);border:1px solid rgba(215,25,32,.28);box-shadow:0 0 34px rgba(0,0,0,.72);overflow:hidden}
+#map{width:100%;height:100%;min-height:520px;filter:saturate(.85) contrast(1.18) brightness(.78);background:#071018}
+.lower{grid-column:1/3;display:grid;grid-template-columns:minmax(320px,460px) minmax(0,1fr);gap:clamp(22px,3vw,44px);align-items:start}
+.form-panel,.list-panel{background:rgba(0,0,0,.72);border-top:1px solid rgba(255,72,78,.55);padding:clamp(18px,2.6vw,26px);backdrop-filter:blur(2px)}
+h2{margin:0 0 18px;text-transform:uppercase;letter-spacing:.08em;font-size:clamp(1.35rem,2.6vw,2.3rem);color:var(--red)}
+label{display:block;margin:14px 0 6px;color:rgba(255,220,220,.96);font-family:Arial,sans-serif;font-size:.84rem;text-transform:uppercase;letter-spacing:.10em}
+input,select{width:100%;padding:11px 12px;background:rgba(0,0,0,.78);border:1px solid rgba(255,72,78,.72);color:rgba(255,235,235,.98);font-family:Arial,sans-serif;font-size:1rem;outline:none}
+.button-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+input::placeholder{color:rgba(255,130,134,.58)}
+input[readonly]{background:rgba(0,0,0,.86);color:rgba(255,190,190,.98)}
+.action{font-weight:700}
+.hint{margin-top:12px;color:rgba(255,205,205,.86);font-family:Arial,sans-serif;font-size:.88rem;line-height:1.45}
+.sightings-list{display:grid;gap:10px}
+.sighting{padding:12px 0;border-bottom:1px solid rgba(255,72,78,.32);font-family:Arial,sans-serif;color:rgba(255,220,220,.96);line-height:1.45;text-shadow:0 0 12px rgba(0,0,0,.95)}
+.sighting strong{color:rgba(255,56,56,.96);font-family:Impact,Haettenschweiler,"Arial Narrow Bold",sans-serif;text-transform:uppercase;letter-spacing:.08em;font-weight:normal}
+.sighting small{display:block;margin-top:4px;color:rgba(215,25,32,.54);letter-spacing:.04em}
+.modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:22px;background:rgba(0,0,0,.86);z-index:1000}
+.modal.open{display:flex}
+.modal-box{width:min(760px,96vw);max-height:86vh;overflow:auto;background:linear-gradient(180deg,rgba(8,12,18,.96),rgba(0,0,0,.96));border:1px solid rgba(255,72,78,.72);padding:clamp(20px,4vw,38px);box-shadow:0 0 44px rgba(0,0,0,.9)}
+.modal-box p{font-family:Arial,sans-serif;font-size:clamp(1rem,1.4vw,1.16rem);line-height:1.58;color:rgba(255,220,220,.96);margin:0 0 1.15em}
+.close-modal{margin-top:14px;float:right}
+.leaflet-popup-content-wrapper,.leaflet-popup-tip{background:rgba(0,0,0,.88);color:rgba(255,64,64,.92);border:1px solid rgba(215,25,32,.38);box-shadow:0 0 20px rgba(0,0,0,.7)}
+.kh-marker{width:16px;height:16px;background:#d71920;border:2px solid rgba(0,0,0,.9);border-radius:50%;box-shadow:0 0 18px rgba(215,25,32,.85)}
+
+.action,.filter,.back,.help-button,.legal-links a{
+  color:var(--red-soft);
+}
+.action:hover,.filter:hover,.back:hover,.help-button:hover,.legal-links a:hover{
+  color:rgba(255,48,48,.98);
+}
+
+/* Bestätigungs-Panel nach erfolgreichem Absenden */
+.success-panel{
+  display:none;
+  background:rgba(0,0,0,.72);
+  border-top:2px solid rgba(255,72,78,.8);
+  padding:clamp(18px,2.6vw,26px);
+  backdrop-filter:blur(2px);
+}
+.success-panel.visible{ display:block; }
+.success-panel h2{ color:var(--red); }
+.success-panel p{ font-family:Arial,sans-serif; color:rgba(255,220,220,.96); font-size:1rem; line-height:1.55; margin:0 0 1em; }
+
+@media (max-width:980px){
+body{background:linear-gradient(180deg,rgba(0,0,0,.58),rgba(0,0,0,.84)),radial-gradient(circle at 50% 24%,rgba(120,160,210,.13),transparent 32%),url("../assets/lake-background.png");background-size:cover;background-position:center top;background-attachment:scroll}
+.page,.lower{display:flex;flex-direction:column}.topline{flex-direction:column}.map-panel,#map{width:100%;min-height:430px}h1{font-size:clamp(2.4rem,12vw,4.4rem)}.legal-links{flex-direction:column;align-items:center;gap:10px}
+}
+
+@media (max-width:600px){
+  body{font-size:16px}
+  .lead,.hint,.sighting,.modal-box p,label,input,select{
+    font-size:1rem;
+    line-height:1.55;
+  }
+  input,select{
+    min-height:44px;
+  }
+  .action,.filter{
+    font-size:.82rem;
+    line-height:1.25;
+  }
+}
+</style>
+</head>
+<body>
+<main class="page">
+<div class="topline"><a class="back" href="../index.html">← Zurück zur Akte</a><button class="help-button" id="openInfo" type="button">Was ist das?</button></div>
+<section class="intro">
+<h1>Bücher im<br>Karl-Heinz-Modus</h1>
+<p class="lead">Fünf Teile. Fünf Karl-Heinze. Kein Ziel, kein Kompass, kein belastbarer Orientierungssinn.</p>
+<div class="controls">
+<button class="filter active" data-filter="all" type="button">Alle</button>
+<button class="filter" data-filter="teil1" type="button">Karl-Heinz I</button>
+<button class="filter" data-filter="teil2" type="button">Karl-Heinz II</button>
+<button class="filter" data-filter="teil3" type="button">Karl-Heinz III</button>
+<button class="filter" data-filter="teil4" type="button">Karl-Heinz IV</button>
+<button class="filter" data-filter="teil5" type="button">Karl-Heinz V</button>
+</div>
+</section>
+<section class="map-panel"><div id="map"></div></section>
+<section class="lower">
+
+<!-- Formular-Panel (wird nach dem Absenden ausgeblendet) -->
+<section class="form-panel" id="formPanel">
+  <h2>Sichtung melden</h2>
+
+  <label for="teilSelect">Welcher Karl-Heinz?</label>
+  <select id="teilSelect">
+    <option value="teil1">Karl-Heinz I</option>
+    <option value="teil2">Karl-Heinz II</option>
+    <option value="teil3">Karl-Heinz III</option>
+    <option value="teil4">Karl-Heinz IV</option>
+    <option value="teil5">Karl-Heinz V</option>
+  </select>
+
+  <label for="dateInput">Wann?</label>
+  <input id="dateInput" type="date">
+
+  <label>Standort</label>
+  <div class="button-row location-row">
+    <button class="action" id="useLocation" type="button">Automatische Standortbestimmung</button>
+  </div>
+
+  <label for="placeAutoInput">Ermittelter Standort</label>
+  <input id="placeAutoInput" type="text" placeholder="Noch nicht bestimmt" readonly>
+
+  <label for="placeExtraInput">Optionaler Zusatz</label>
+  <input id="placeExtraInput" type="text" placeholder="z. B. auf der Parkbank, hinter der Windschutzscheibe ...">
+
+  <div class="button-row">
+    <button class="action" id="prepareSighting" type="button">Sichtung einreichen</button>
+  </div>
+
+  <p class="hint" id="formHint"></p>
+</section>
+
+<!-- Erfolgs-Panel (erscheint nach dem Absenden) -->
+<section class="success-panel" id="successPanel">
+  <h2>Sichtung vermerkt</h2>
+  <p>Die Sichtung wurde vermerkt und weitergeleitet.</p>
+  <p>Nach der Freigabe wird sie hier auf der Karte veröffentlicht.</p>
+</section>
+
+<!-- Verstecktes Netlify-Formular (wird nie angezeigt, nur für die Registrierung bei Netlify) -->
+<form name="sichtung" netlify netlify-honeypot="bot-field" hidden>
+  <input type="hidden" name="form-name" value="sichtung">
+  <input name="teil">
+  <input name="datum">
+  <input name="ort">
+  <input name="lat">
+  <input name="lon">
+</form>
+
+<section class="list-panel"><h2>Letzte Sichtungen</h2><div class="sightings-list" id="sightingsList"></div></section>
+</section>
+<div class="legal-links"><a href="../datenschutz.html">Datenschutz</a></div>
+</main>
+
+<!-- Info-Modal -->
+<div class="modal" id="infoModal" aria-hidden="true" role="dialog">
+<div class="modal-box"><h2>Was ist der Karl-Heinz-Modus?</h2>
+<p>Jeder der fünf Teile von „Die Akte Norbert" ist als eigenständiges Buch im Umlauf.</p>
+<p>Frei und ohne festes Ziel – wie Stockente Karl-Heinz, deren Orientierungssinn eher als Vorschlag denn als Fähigkeit zu verstehen ist.</p>
+<p>Die fünf Teile heißen deshalb Karl-Heinz I bis Karl-Heinz V.</p>
+<p>Die Idee ist einfach: Irgendwo liegt ein Buch aus. In einem Café. In einer Krankenhausbibliothek. In einem Bücherschrank. Auf einer Parkbank. Vielleicht auch an einem Ort, an dem Bücher normalerweise nichts zu suchen haben.</p>
+<p>Nehmt es mit. Lest es. Und setzt es anschließend wieder aus.</p>
+<p>(Bitte nicht im See. Karl-Heinz könnte ertrinken.)</p>
+<p>Wenn ihr einem Karl-Heinz begegnet, helft uns dabei, seine Wanderungen zu dokumentieren. Ihr könnt den Standort entweder hier eintragen oder den QR-Code im Buch scannen.</p>
+<p>Karl-Heinz-Bücher können nicht im Buchhandel bestellt werden.</p>
+<button class="action close-modal" id="closeInfo" type="button">Akte schließen</button>
+</div></div>
+
+<!-- Bestätigungs-Modal vor dem Absenden -->
+<div class="modal" id="confirmModal" aria-hidden="true" role="dialog">
+<div class="modal-box">
+  <h2>Sichtung prüfen</h2>
+  <p id="confirmText"></p>
+  <div class="button-row">
+    <button class="action" id="confirmBack" type="button">Zurück und korrigieren</button>
+    <button class="action" id="confirmPublish" type="button">Sichtung einreichen</button>
+  </div>
+</div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+const partLabels = {teil1:"Karl-Heinz I",teil2:"Karl-Heinz II",teil3:"Karl-Heinz III",teil4:"Karl-Heinz IV",teil5:"Karl-Heinz V"};
+const urlParams = new URLSearchParams(window.location.search);
+const requestedPart = urlParams.get("teil");
+let currentFilter = requestedPart && partLabels[requestedPart] ? requestedPart : "all";
+let sightings = [];
+let markers = [];
+
+const map = L.map("map",{zoomControl:true,scrollWheelZoom:true}).setView([52.2,10.5],4);
+L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",{attribution:"&copy; OpenStreetMap &copy; CARTO",subdomains:"abcd",maxZoom:19}).addTo(map);
+const khIcon = L.divIcon({className:"",html:'<div class="kh-marker"></div>',iconSize:[16,16],iconAnchor:[8,8],popupAnchor:[0,-8]});
+
+function formatDate(s){const d=new Date(s+"T00:00:00");return d.toLocaleDateString("de-DE",{day:"2-digit",month:"2-digit",year:"numeric"});}
+function todayISO(){return new Date().toISOString().slice(0,10);}
+function setTodayIfEmpty(){const dateInput=document.getElementById("dateInput");if(!dateInput.value)dateInput.value=todayISO();}
+function buildPlaceName(autoPlace, extraPlace){return extraPlace ? `${autoPlace} — ${extraPlace}` : autoPlace;}
+function showIncompleteWarning(missing){alert(`Eingabe nicht vollständig. Eingetragen werden muss: ${missing.join(", ")}.`);}
+function openConfirmModal(text){document.getElementById("confirmText").innerHTML=text;document.getElementById("confirmModal").classList.add("open");document.getElementById("confirmModal").setAttribute("aria-hidden","false");}
+function closeConfirmModal(){document.getElementById("confirmModal").classList.remove("open");document.getElementById("confirmModal").setAttribute("aria-hidden","true");}
+function sightingSentence(item){return `Ein <strong>${partLabels[item.teil]}</strong> ist am ${formatDate(item.created_at)} in der Nähe von ${item.place_name} gesichtet worden.`;}
+
+// Nur freigegebene Sichtungen anzeigen
+function filteredSightings(){
+  const approved = sightings.filter(s => s.status === "approved");
+  return currentFilter === "all" ? approved : approved.filter(s => s.teil === currentFilter);
+}
+
+function renderMap(){markers.forEach(m=>m.remove());markers=[];const visible=filteredSightings();visible.forEach(item=>{const marker=L.marker([item.lat,item.lon],{icon:khIcon}).bindPopup(`<strong>${partLabels[item.teil]}</strong><br>${item.place_name}<br>${formatDate(item.created_at)}`);marker.addTo(map);markers.push(marker);});if(markers.length>0){const group=L.featureGroup(markers);map.fitBounds(group.getBounds().pad(.22),{maxZoom:7});}}
+function renderList(){const list=document.getElementById("sightingsList");const visible=filteredSightings().slice().sort((a,b)=>new Date(b.created_at)-new Date(a.created_at));list.innerHTML=visible.map(item=>`<article class="sighting">${sightingSentence(item)}<small>${formatDate(item.created_at)}</small></article>`).join("");}
+function setFilter(filter){currentFilter=filter;document.querySelectorAll(".filter").forEach(b=>b.classList.toggle("active",b.dataset.filter===filter));renderMap();renderList();}
+
+document.querySelectorAll(".filter").forEach(b=>b.addEventListener("click",()=>setFilter(b.dataset.filter)));
+document.getElementById("openInfo").addEventListener("click",()=>{document.getElementById("infoModal").classList.add("open");});
+document.getElementById("closeInfo").addEventListener("click",()=>{document.getElementById("infoModal").classList.remove("open");});
+document.getElementById("infoModal").addEventListener("click",(e)=>{if(e.target.id==="infoModal")document.getElementById("infoModal").classList.remove("open");});
+
+document.getElementById("useLocation").addEventListener("click",()=>{
+  const hint=document.getElementById("formHint");
+  const placeAutoInput=document.getElementById("placeAutoInput");
+  if(!navigator.geolocation){hint.textContent="Dieser Browser gibt keinen Standort preis. Vermutlich aus guten Gründen.";return;}
+  hint.textContent="Karl-Heinz fragt den Kompass. Einen Moment ...";
+  navigator.geolocation.getCurrentPosition(async pos=>{
+    window.pendingLat=pos.coords.latitude;
+    window.pendingLon=pos.coords.longitude;
+    let label=`${window.pendingLat.toFixed(5)}, ${window.pendingLon.toFixed(5)}`;
+    try{
+      const url=`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${encodeURIComponent(window.pendingLat)}&lon=${encodeURIComponent(window.pendingLon)}&zoom=16&addressdetails=1`;
+      const response=await fetch(url);
+      if(response.ok){
+        const data=await response.json();
+        const a=data.address||{};
+        const road=a.road||a.pedestrian||a.footway||a.cycleway||"";
+        const house=a.house_number?` ${a.house_number}`:"";
+        const town=a.town||a.village||a.city||a.municipality||a.county||"";
+        label=[(road+house).trim(),town].filter(Boolean).join(", ")||data.display_name||label;
+      }
+    }catch(error){console.warn(error);}
+    placeAutoInput.value=label;
+    hint.textContent="Standort übernommen. Optional kannst du noch ergänzen, wo Karl-Heinz genau herumlag.";
+  },()=>{
+    hint.textContent="Standort konnte nicht ermittelt werden. Bitte Standortfreigabe prüfen und erneut versuchen.";
+  },{enableHighAccuracy:false,timeout:8000,maximumAge:60000});
+});
+
+let pendingSighting=null;
+
+document.getElementById("prepareSighting").addEventListener("click",()=>{
+  const teil=document.getElementById("teilSelect").value;
+  const autoPlace=document.getElementById("placeAutoInput").value.trim();
+  const extraPlace=document.getElementById("placeExtraInput").value.trim();
+  const date=document.getElementById("dateInput").value;
+  const missing=[];
+
+  if(!teil) missing.push("Karl-Heinz-Teil");
+  if(!date) missing.push("Datum");
+  if(!autoPlace || !window.pendingLat || !window.pendingLon) missing.push("automatisch bestimmter Standort");
+
+  if(missing.length){
+    showIncompleteWarning(missing);
+    return;
+  }
+
+  const place=buildPlaceName(autoPlace,extraPlace);
+  pendingSighting={teil, lat:window.pendingLat, lon:window.pendingLon, place_name:place, created_at:date};
+
+  openConfirmModal(`So würde die Sichtung eingereicht:<br><br>${sightingSentence(pendingSighting)}<br><br>Wenn das doof aussieht: zurück und korrigieren.`);
+});
+
+document.getElementById("confirmBack").addEventListener("click",()=>{closeConfirmModal();});
+
+document.getElementById("confirmPublish").addEventListener("click",async ()=>{
+  if(!pendingSighting){closeConfirmModal();return;}
+  closeConfirmModal();
+
+  // An Netlify Forms senden
+  const formData = new FormData();
+  formData.append("form-name", "sichtung");
+  formData.append("teil", pendingSighting.teil);
+  formData.append("datum", pendingSighting.created_at);
+  formData.append("ort", pendingSighting.place_name);
+  formData.append("lat", pendingSighting.lat);
+  formData.append("lon", pendingSighting.lon);
+
+  try {
+    const response = await fetch("/", {
+      method: "POST",
+      body: formData
+    });
+
+    if (response.ok) {
+      // Formular ausblenden, Erfolgs-Panel zeigen
+      document.getElementById("formPanel").style.display = "none";
+      document.getElementById("successPanel").classList.add("visible");
+    } else {
+      document.getElementById("formHint").textContent = "Etwas ist schiefgelaufen. Bitte versuche es erneut.";
+    }
+  } catch(error) {
+    document.getElementById("formHint").textContent = "Verbindungsfehler. Bitte versuche es erneut.";
+    console.error(error);
+  }
+
+  pendingSighting = null;
+});
+
+document.getElementById("confirmModal").addEventListener("click",(e)=>{if(e.target.id==="confirmModal") closeConfirmModal();});
+
+if(requestedPart && partLabels[requestedPart]){
+  document.getElementById("teilSelect").value=requestedPart;
+  // Select-Feld sperren wenn per QR-Code aufgerufen
+  document.getElementById("teilSelect").disabled=true;
+}
+
+async function loadSightings(){
+  const list = document.getElementById("sightingsList");
+  list.innerHTML = '<article class="sighting">Karl-Heinz durchsucht die Akten ...</article>';
+  try {
+    const response = await fetch("sightings.json", { cache: "no-store" });
+    if (!response.ok) throw new Error("HTTP " + response.status);
+    sightings = await response.json();
+    setFilter(currentFilter);
+  } catch (error) {
+    sightings = [];
+    list.innerHTML = '<article class="sighting"><strong>Keine Sichtungen geladen.</strong></article>';
+    console.error(error);
+  }
+}
+
+setTodayIfEmpty();
+loadSightings();
+</script>
+</body>
+</html>

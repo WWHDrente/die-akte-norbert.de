@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Die Akte Norbert — Unterwelt</title>
+  <meta name="description" content="Diese Akte wurde noch nicht freigegeben." />
+  <link rel="icon" type="image/png" href="assets/favicon.png" />
+
+  <style>
+    :root {
+      --red: #d71920;
+      --red-soft: rgba(215, 25, 32, 0.82);
+      --black: #000;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      background: var(--black);
+      color: var(--red);
+      font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: #000;
+      padding: clamp(16px, 2.5vw, 34px);
+    }
+
+    .notice {
+      width: min(1040px, 96vw);
+      text-align: center;
+      z-index: 2;
+      margin-bottom: clamp(14px, 2.5vh, 26px);
+    }
+
+    .notice h1 {
+      margin: 0 0 10px;
+      color: var(--red);
+      text-transform: uppercase;
+      font-size: clamp(1.5rem, 4vw, 3.4rem);
+      line-height: 1;
+      letter-spacing: 0.08em;
+      text-shadow: 0 0 16px rgba(215, 25, 32, 0.38);
+    }
+
+    .notice p {
+      margin: 0 auto 14px;
+      max-width: 850px;
+      color: var(--red-soft);
+      text-transform: uppercase;
+      font-size: clamp(0.85rem, 1.8vw, 1.25rem);
+      letter-spacing: 0.13em;
+      line-height: 1.35;
+      text-shadow: 0 0 10px rgba(215, 25, 32, 0.28);
+    }
+
+    .back-link {
+      display: inline-block;
+      color: var(--red-soft);
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      font-size: clamp(0.78rem, 1.4vw, 1rem);
+      border-bottom: 1px solid rgba(215, 25, 32, 0.75);
+      padding-bottom: 5px;
+      text-shadow: 0 0 10px rgba(215, 25, 32, 0.36);
+    }
+
+    .back-link:hover,
+    .back-link:focus-visible {
+      color: rgba(255, 44, 44, 0.98);
+      outline: none;
+      text-shadow: 0 0 22px rgba(215, 25, 32, 0.9);
+    }
+
+    .underworld-image {
+      width: min(1120px, 96vw);
+      flex: 1;
+      min-height: 0;
+      background-image: url("assets/unterwelt.png");
+      background-repeat: no-repeat;
+      background-position: center top;
+      background-size: contain;
+      filter: drop-shadow(0 0 24px rgba(215, 25, 32, 0.12));
+    }
+
+    @media (max-width: 700px) {
+      .page { padding: 14px; }
+      .notice h1 { font-size: clamp(1.25rem, 7vw, 2.1rem); }
+      .notice p { font-size: 0.78rem; letter-spacing: 0.1em; }
+      .underworld-image {
+        width: 100vw;
+        min-height: 58vh;
+        background-size: cover;
+        background-position: center center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="notice" aria-label="Hinweis">
+      <h1 id="headline">Sorry.</h1>
+      <p id="message">Hier geht es derzeit noch in die Unterwelt.</p>
+      <a class="back-link" id="backLink" href="index.html?lang=de">Zurück zur Akte</a>
+    </section>
+
+    <div class="underworld-image" aria-hidden="true"></div>
+  </main>
+
+  <script>
+    const translations = {
+      de: { htmlLang: 'de', headline: 'Sorry.', message: 'Hier geht es derzeit noch in die Unterwelt.', back: 'Zurück zur Akte' },
+      en: { htmlLang: 'en', headline: 'Sorry.', message: 'This way still leads to the underworld.', back: 'Back to the files' },
+      es: { htmlLang: 'es', headline: 'Perdón.', message: 'Esto todavía lleva al inframundo.', back: 'Volver al expediente' },
+      ru: { htmlLang: 'ru', headline: 'Извините.', message: 'Здесь пока путь в подземный мир.', back: 'Назад к делу' },
+      lat: { htmlLang: 'la', headline: 'Ignosce.', message: 'Hic adhuc ad inferos itur.', back: 'Ad acta redire' },
+      quak: { htmlLang: 'de', headline: 'Quak.', message: 'Hier quakt es noch in die Unterwelt.', back: 'Zurück zum Quak' }
+    };
+
+    const params = new URLSearchParams(window.location.search);
+    const storedLang = localStorage.getItem('norbertLang');
+    const requestedLang = params.get('lang') || storedLang || 'de';
+    const lang = translations[requestedLang] ? requestedLang : 'de';
+    const t = translations[lang];
+
+    document.documentElement.lang = t.htmlLang;
+    document.getElementById('headline').textContent = t.headline;
+    document.getElementById('message').textContent = t.message;
+    document.getElementById('backLink').textContent = t.back;
+    document.getElementById('backLink').href = `index.html?lang=${encodeURIComponent(lang)}`;
+    localStorage.setItem('norbertLang', lang);
+  </script>
+</body>
+</html>

@@ -1,0 +1,525 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" type="image/png" href="assets/favicon.png" />
+  <link rel="apple-touch-icon" href="assets/favicon.png" />
+
+  <style>
+    :root {
+      --red: #d71920;
+      --red-soft: rgba(215, 25, 32, 0.80);
+      --black: #000;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      background: #000;
+      color: var(--red);
+    }
+
+    body {
+      min-height: 100vh;
+      overflow-x: hidden;
+      font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+      background:
+        linear-gradient(90deg, rgba(0,0,0,0.68), rgba(0,0,0,0.18) 43%, rgba(0,0,0,0.72)),
+        radial-gradient(circle at 42% 35%, rgba(215,25,32,0.10), transparent 34%),
+        linear-gradient(180deg, rgba(0,0,0,0.18), rgba(0,0,0,0.74)),
+        url("assets/wald-background.png");
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(240px, 340px);
+      grid-template-rows: auto minmax(0, 1fr);
+      gap: clamp(18px, 3vw, 46px);
+      padding: clamp(16px, 2.5vw, 34px);
+      background: transparent;
+    }
+
+    .language-switch {
+      grid-column: 1 / 3;
+      grid-row: 1 / 2;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-self: start;
+      justify-self: start;
+      z-index: 3;
+    }
+
+    .language-switch button {
+      appearance: none;
+      border: 0;
+      background: transparent;
+      color: var(--red-soft);
+      cursor: pointer;
+      font-family: Arial, sans-serif;
+      font-size: clamp(0.68rem, 1vw, 0.9rem);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 0;
+      text-shadow: 0 0 8px rgba(215, 25, 32, 0.45), 0 0 14px rgba(0,0,0,0.8);
+    }
+
+    .language-switch button.active,
+    .language-switch button:hover,
+    .language-switch button:focus-visible {
+      color: rgba(255, 44, 44, 0.98);
+      outline: none;
+    }
+
+    .hero {
+      grid-column: 1 / 2;
+      grid-row: 2 / 3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-width: 0;
+      overflow: hidden;
+    }
+
+    .norbert {
+      width: min(58vh, 62vw, 680px);
+      aspect-ratio: 1 / 1;
+      background-image: url("assets/norbert-transe.png");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+      margin-bottom: clamp(8px, 1.5vh, 18px);
+      flex-shrink: 0;
+      filter: drop-shadow(0 0 22px rgba(215, 25, 32, 0.18));
+    }
+
+    .title-card {
+      width: min(100%, 860px);
+      max-width: 860px;
+      height: auto;
+      display: block;
+      flex-shrink: 1;
+    }
+
+    .title-fallback {
+      display: none;
+      width: min(100%, 860px);
+      text-align: center;
+      text-transform: uppercase;
+      color: var(--red);
+      text-shadow: 0 0 16px rgba(215, 25, 32, 0.28);
+    }
+
+    .title-fallback h1 {
+      margin: 0;
+      font-size: clamp(2.2rem, 7vw, 5.8rem);
+      line-height: 0.9;
+      letter-spacing: 0.045em;
+    }
+
+    .title-fallback h2 {
+      margin: 0.22em 0 0.65em;
+      font-size: clamp(1rem, 2.5vw, 2rem);
+      letter-spacing: 0.22em;
+      font-weight: normal;
+    }
+
+    .censored-line {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1.4em;
+      font-size: clamp(0.8rem, 2vw, 1.45rem);
+      letter-spacing: 0.16em;
+    }
+
+    .scribble {
+      position: relative;
+      display: inline-block;
+    }
+
+    .scribble::after {
+      content: "";
+      position: absolute;
+      left: -4px;
+      right: -4px;
+      top: 48%;
+      height: 2px;
+      background: rgba(215,25,32,0.96);
+      transform: rotate(-8deg);
+      box-shadow:
+        0 -3px 0 rgba(215,25,32,0.72),
+        0 3px 0 rgba(215,25,32,0.62),
+        2px 6px 0 rgba(215,25,32,0.48);
+    }
+
+    .main-nav {
+      grid-column: 2 / 3;
+      grid-row: 2 / 3;
+      align-self: center;
+      justify-self: stretch;
+      display: flex;
+      flex-direction: column;
+      gap: clamp(14px, 2vh, 22px);
+      padding-left: clamp(18px, 2vw, 28px);
+      border-left: 1px solid rgba(215, 25, 32, 0.25);
+      min-width: 0;
+      background: transparent;
+    }
+
+    .main-nav a {
+      color: var(--red-soft);
+      text-decoration: none;
+      font-size: clamp(0.8rem, 1.15vw, 1.08rem);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      line-height: 1.25;
+      text-shadow: 0 0 10px rgba(215, 25, 32, 0.38), 0 0 18px rgba(0,0,0,0.95);
+      transition: 0.2s ease;
+      border-bottom: 1px solid rgba(215, 25, 32, 0.30);
+      padding-bottom: 10px;
+    }
+
+    .main-nav a:hover,
+    .main-nav a:focus-visible {
+      color: rgba(255, 44, 44, 0.98);
+      transform: translateX(2px);
+      outline: none;
+    }
+
+    .impressum-button {
+      grid-column: 2 / 3;
+      grid-row: 2 / 3;
+      justify-self: end;
+      align-self: end;
+      appearance: none;
+      border: 0;
+      border-bottom: 1px solid rgba(215, 25, 32, 0.75);
+      background: transparent;
+      color: var(--red-soft);
+      cursor: pointer;
+      font: inherit;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      font-size: clamp(0.72rem, 1.2vw, 0.95rem);
+      padding: 6px 1px 5px;
+      text-shadow: 0 0 10px rgba(215, 25, 32, 0.45), 0 0 18px rgba(0,0,0,0.9);
+      z-index: 5;
+      margin-top: clamp(22px, 4vh, 48px);
+    }
+
+    .impressum-button:hover,
+    .impressum-button:focus-visible {
+      outline: none;
+      color: rgba(255, 44, 44, 0.98);
+      text-shadow: 0 0 24px rgba(215, 25, 32, 0.95);
+    }
+
+    .privacy-link {
+      grid-column: 2 / 3;
+      grid-row: 2 / 3;
+      justify-self: start;
+      align-self: end;
+      color: var(--red-soft);
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      font-size: clamp(0.72rem, 1.2vw, 0.95rem);
+      padding: 6px 1px 5px;
+      border-bottom: 1px solid rgba(215, 25, 32, 0.75);
+      text-shadow: 0 0 10px rgba(215, 25, 32, 0.45), 0 0 18px rgba(0,0,0,0.9);
+      z-index: 5;
+      margin-top: clamp(22px, 4vh, 48px);
+    }
+
+    .privacy-link:hover,
+    .privacy-link:focus-visible {
+      outline: none;
+      color: rgba(255, 44, 44, 0.98);
+      text-shadow: 0 0 24px rgba(215, 25, 32, 0.95);
+    }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 10;
+    }
+
+    .modal.is-open { display: flex; }
+
+    .modal-box {
+      position: relative;
+      width: min(720px, 94vw);
+      padding: clamp(18px, 4vw, 34px);
+      border: 0;
+      background: #000;
+      box-shadow: none;
+    }
+
+    .modal-box img {
+      display: block;
+      width: 100%;
+      height: auto;
+      background: #000;
+    }
+
+    .close {
+      position: absolute;
+      right: 10px;
+      top: 4px;
+      appearance: none;
+      border: 0;
+      background: transparent;
+      color: var(--red);
+      font-size: 38px;
+      line-height: 1;
+      cursor: pointer;
+      font-family: Arial, sans-serif;
+      text-shadow: 0 0 12px rgba(215, 25, 32, 0.55);
+    }
+
+    .close:hover,
+    .close:focus-visible {
+      outline: none;
+      text-shadow: 0 0 22px rgba(215, 25, 32, 0.95);
+    }
+
+    @media (max-width: 960px) {
+      body {
+        background:
+          linear-gradient(180deg, rgba(0,0,0,0.54), rgba(0,0,0,0.78)),
+          radial-gradient(circle at 50% 26%, rgba(215,25,32,0.12), transparent 34%),
+          url("assets/wald-background.png");
+        background-size: cover;
+        background-position: center top;
+        background-repeat: no-repeat;
+        background-attachment: scroll;
+      }
+
+      .page {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        padding: 14px 14px 20px;
+        background: transparent;
+      }
+
+      .language-switch {
+        width: 100%;
+        justify-content: center;
+        order: 1;
+      }
+
+      .hero {
+        order: 2;
+        width: 100%;
+        flex: 0 1 auto;
+        overflow: visible;
+      }
+
+      .norbert {
+        width: min(84vw, 46vh, 540px);
+        margin-top: 8px;
+      }
+
+      .title-card,
+      .title-fallback {
+        width: min(96vw, 760px);
+      }
+
+      .main-nav {
+        order: 3;
+        width: min(96vw, 760px);
+        border-left: 0;
+        padding-left: 0;
+        margin: 14px auto 0;
+        gap: 9px;
+        background: transparent;
+      }
+
+      .main-nav a {
+        text-align: center;
+        font-size: 0.78rem;
+        padding-bottom: 7px;
+      }
+
+      .impressum-button {
+        order: 4;
+        align-self: center;
+        margin-top: 14px;
+      }
+
+      .privacy-link {
+        order: 5;
+        align-self: center;
+        margin-top: 8px;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .language-switch { gap: 9px; }
+      .norbert { width: min(88vw, 46vh, 420px); }
+      .main-nav a {
+        font-size: 0.68rem;
+        letter-spacing: 0.11em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page" aria-label="Die Akte Norbert">
+    <div class="language-switch" aria-label="Sprachauswahl">
+      <button data-lang="de" class="active" type="button">DE</button>
+      <button data-lang="en" type="button">EN</button>
+      <button data-lang="es" type="button">ES</button>
+      <button data-lang="ru" type="button">РУ</button>
+      <button data-lang="lat" type="button">LAT</button>
+      <button data-lang="quak" type="button">QUAK</button>
+    </div>
+
+    <section class="hero">
+      <div class="norbert" aria-hidden="true"></div>
+      <img class="title-card" id="titleCard" src="assets/title-de.png" alt="Die Akte Norbert — Wiedervorlage" />
+
+      <div class="title-fallback" id="titleFallback" aria-hidden="true">
+        <h1 id="fallbackTitle">Die Akte Norbert</h1>
+        <h2 id="fallbackSubtitle">Wiedervorlage</h2>
+        <div class="censored-line" id="fallbackCensored"></div>
+      </div>
+    </section>
+
+    <nav class="main-nav" aria-label="Hauptnavigation">
+      <a href="abschuss.html" id="navRead">Zum <span class="scribble">Abschuss</span> Durchlesen freigegeben</a>
+      <a href="unterwelt.html" id="navNet">Norbert ins Netz gegangen</a>
+      <a href="unterwelt.html" id="navMode">Karl-Heinz Modus</a>
+      <a href="unterwelt.html" id="navTour">Norbert auf Tour</a>
+      <a href="unterwelt.html" id="navLake">Neues vom See</a>
+    </nav>
+
+    <button class="impressum-button" id="openImpressum" type="button">Impressum</button>
+    <a class="privacy-link" href="datenschutz.html">Datenschutz</a>
+  </main>
+
+  <div class="modal" id="impressumModal" aria-hidden="true" role="dialog" aria-label="Impressum">
+    <div class="modal-box">
+      <button class="close" id="closeImpressum" type="button" aria-label="Impressum schließen">×</button>
+      <img src="assets/impressum.png" alt="Impressum" />
+    </div>
+  </div>
+
+  <script>
+    const translations = {
+      de: { htmlLang: 'de', titleImage: 'assets/title-de.png', titleAlt: 'Die Akte Norbert — Wiedervorlage', fallbackTitle: 'Die Akte Norbert', fallbackSubtitle: 'Wiedervorlage', fallbackCensored: ['un|zensiert', 'un|gekürzt', 'un|geschwärzt'], tour: 'Norbert auf Tour', net: 'Norbert ins Netz gegangen', read: 'Zum <span class="scribble">Abschuss</span> Durchlesen freigegeben', mode: 'Karl-Heinz Modus', lake: 'Neues vom See', imprint: 'Impressum' },
+      en: { htmlLang: 'en', titleImage: 'assets/title-en.png', titleAlt: 'The Norbert Files — Reopened Case', fallbackTitle: 'The Norbert Files', fallbackSubtitle: 'Reopened Case', fallbackCensored: ['un|censored', 'un|cut', 'un|redacted'], tour: 'Norbert on Tour', net: 'Norbert Got Caught in the Net', read: 'Cleared for <span class="scribble">Termination</span> Reading', mode: 'Karl-Heinz Mode', lake: 'News from the Lake', imprint: 'Imprint' },
+      es: { htmlLang: 'es', titleImage: 'assets/title-es.png', titleAlt: 'El expediente Norbert — Reapertura del caso', fallbackTitle: 'El expediente Norbert', fallbackSubtitle: 'Reapertura del caso', fallbackCensored: ['in|censurado', 'sin|recortes', 'sin|tachaduras'], tour: 'Norbert de gira', net: 'Norbert cayó en la red', read: 'Autorizado para <span class="scribble">eliminar</span> leer', mode: 'Modo Karl-Heinz', lake: 'Noticias del lago', imprint: 'Aviso legal' },
+      ru: { htmlLang: 'ru', titleImage: 'assets/title-ru.png', titleAlt: 'Дело Норберта — повторное рассмотрение', fallbackTitle: 'Дело Норберта', fallbackSubtitle: 'Повторное рассмотрение', fallbackCensored: ['не|цензурировано', 'не|сокращено', 'не|зачёркнуто'], tour: 'Норберт в туре', net: 'Норберт попал в сеть', read: 'Разрешено к <span class="scribble">отстрелу</span> прочтению', mode: 'Режим Карл-Хайнца', lake: 'Новости с озера', imprint: 'Импрессум' },
+      lat: { htmlLang: 'la', titleImage: 'assets/title-lat.png', titleAlt: 'Acta Norberti — ad ulteriorem censuram et recognitionem remissa', fallbackTitle: 'Acta Norberti', fallbackSubtitle: 'Ad ulteriorem censuram et recognitionem remissa', fallbackCensored: ['in|censum', 'non|abbreviatum', 'non|expurgatum'], tour: 'Norbertus in itinere', net: 'Norbertus in rete', read: 'Ad <span class="scribble">supplicium</span> legendum permissum', mode: 'Modus Karl-Heinz', lake: 'Nuntii de lacu', imprint: 'Impressum' },
+      quak: { htmlLang: 'de', titleImage: 'assets/title-quak.png', titleAlt: 'Quak Quak Quak — Wiedervorgequake', fallbackTitle: 'Quak Quak Quak', fallbackSubtitle: 'Wiedervorgequake', fallbackCensored: ['qu|ak', 'qu|ak', 'qu|ak'], tour: 'Norbert auf Quak', net: 'Norbert im Quak', read: 'Zum <span class="scribble">Abquaken</span> Durchquaken freigequakt', mode: 'Karl-Heinz Quak', lake: 'Neues vom Quak', imprint: 'Impressum-Quak' }
+    };
+
+    const langButtons = document.querySelectorAll('.language-switch button');
+    const titleCard = document.getElementById('titleCard');
+    const titleFallback = document.getElementById('titleFallback');
+    const fallbackTitle = document.getElementById('fallbackTitle');
+    const fallbackSubtitle = document.getElementById('fallbackSubtitle');
+    const fallbackCensored = document.getElementById('fallbackCensored');
+    const navTour = document.getElementById('navTour');
+    const navNet = document.getElementById('navNet');
+    const navRead = document.getElementById('navRead');
+    const navMode = document.getElementById('navMode');
+    const navLake = document.getElementById('navLake');
+    const imprintButton = document.getElementById('openImpressum');
+
+    function renderCensored(parts) {
+      return parts.map(item => {
+        const [crossed, rest] = item.split('|');
+        return `<span><span class="scribble">${crossed}</span>${rest}</span>`;
+      }).join('');
+    }
+
+    function setLanguage(lang) {
+      const t = translations[lang];
+      document.documentElement.lang = t.htmlLang;
+      titleCard.src = t.titleImage;
+      titleCard.alt = t.titleAlt;
+      fallbackTitle.textContent = t.fallbackTitle;
+      fallbackSubtitle.textContent = t.fallbackSubtitle;
+      fallbackCensored.innerHTML = renderCensored(t.fallbackCensored);
+      navTour.innerHTML = t.tour;
+      navNet.innerHTML = t.net;
+      navRead.innerHTML = t.read;
+      navMode.innerHTML = t.mode;
+      navLake.innerHTML = t.lake;
+      imprintButton.textContent = t.imprint;
+
+      document.querySelectorAll('.main-nav a').forEach(link => {
+        const page = link.id === 'navRead' ? 'abschuss.html' : 'unterwelt.html';
+        link.href = `${page}?lang=${encodeURIComponent(lang)}`;
+      });
+
+      localStorage.setItem('norbertLang', lang);
+      langButtons.forEach(btn => btn.classList.remove('active'));
+      document.querySelector(`[data-lang="${lang}"]`).classList.add('active');
+    }
+
+    titleCard.addEventListener('error', () => {
+      titleCard.style.display = 'none';
+      titleFallback.style.display = 'block';
+      titleFallback.setAttribute('aria-hidden', 'false');
+    });
+
+    langButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        titleCard.style.display = 'block';
+        titleFallback.style.display = 'none';
+        titleFallback.setAttribute('aria-hidden', 'true');
+        setLanguage(button.dataset.lang);
+      });
+    });
+
+    const openButton = document.getElementById('openImpressum');
+    const closeButton = document.getElementById('closeImpressum');
+    const modal = document.getElementById('impressumModal');
+
+    function openModal() {
+      modal.classList.add('is-open');
+      modal.setAttribute('aria-hidden', 'false');
+      closeButton.focus();
+    }
+
+    function closeModal() {
+      modal.classList.remove('is-open');
+      modal.setAttribute('aria-hidden', 'true');
+      openButton.focus();
+    }
+
+    openButton.addEventListener('click', openModal);
+    closeButton.addEventListener('click', closeModal);
+
+    modal.addEventListener('click', (event) => {
+      if (event.target === modal) closeModal();
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
+    });
+
+    const initialLang = new URLSearchParams(window.location.search).get('lang') || localStorage.getItem('norbertLang') || 'de';
+    setLanguage(translations[initialLang] ? initialLang : 'de');
+  </script>
+</body>
+</html>
