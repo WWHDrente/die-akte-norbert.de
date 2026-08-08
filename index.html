@@ -378,6 +378,26 @@
         letter-spacing: 0.11em;
       }
     }
+
+    .ki-stamp {
+      display: inline-block;
+      margin: clamp(14px,2.5vh,28px) 0 clamp(14px,2.5vh,28px) clamp(8px,2vw,24px);
+      padding: 7px 18px 8px;
+      border: 3px solid rgba(215,25,32,.72);
+      border-radius: 4px;
+      color: rgba(215,25,32,.68);
+      font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+      font-size: clamp(.72rem,1.1vw,.92rem);
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      text-align: center;
+      transform: rotate(-2.8deg);
+      box-shadow: inset 0 0 0 1px rgba(215,25,32,.18);
+      filter: url(#stamp-rough);
+      opacity: .82;
+      pointer-events: none;
+      user-select: none;
+    }
   </style>
 </head>
 <body>
@@ -402,11 +422,18 @@
       </div>
     </section>
 
+    <svg width="0" height="0" style="position:absolute">
+      <filter id="stamp-rough" x="-5%" y="-5%" width="110%" height="110%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.065" numOctaves="4" seed="8" result="noise"/>
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.2" xChannelSelector="R" yChannelSelector="G"/>
+      </filter>
+    </svg>
+    <div class="ki-stamp">Webseite kann Spuren von KI-generierten Bildern enthalten</div>
+
     <nav class="main-nav" aria-label="Hauptnavigation">
       <a href="abschuss.html" id="navRead">Zum <span class="scribble">Abschuss</span> Durchlesen freigegeben</a>
       <a href="unterwelt.html" id="navNet">Norbert ins Netz gegangen</a>
-      <a href="unterwelt.html" id="navMode">Karl-Heinz Modus</a>
-      <a href="unterwelt.html" id="navTour">Norbert auf Tour</a>
+      <a href="kh/index.html" id="navMode">Karl-Heinz Modus</a>
       <a href="unterwelt.html" id="navLake">Neues vom See</a>
     </nav>
 
@@ -418,17 +445,18 @@
     <div class="modal-box">
       <button class="close" id="closeImpressum" type="button" aria-label="Impressum schließen">×</button>
       <img src="assets/impressum.png" alt="Impressum" />
+      <p style="margin:16px 0 0;font-family:Arial,sans-serif;font-size:.82rem;color:rgba(215,25,32,.58);text-align:center;letter-spacing:.04em;">Einzelne Illustrationen dieser Website wurden mithilfe KI-gestützter Werkzeuge erstellt oder bearbeitet.</p>
     </div>
   </div>
 
   <script>
     const translations = {
-      de: { htmlLang: 'de', titleImage: 'assets/title-de.png', titleAlt: 'Die Akte Norbert — Wiedervorlage', fallbackTitle: 'Die Akte Norbert', fallbackSubtitle: 'Wiedervorlage', fallbackCensored: ['un|zensiert', 'un|gekürzt', 'un|geschwärzt'], tour: 'Norbert auf Tour', net: 'Norbert ins Netz gegangen', read: 'Zum <span class="scribble">Abschuss</span> Durchlesen freigegeben', mode: 'Karl-Heinz Modus', lake: 'Neues vom See', imprint: 'Impressum' },
-      en: { htmlLang: 'en', titleImage: 'assets/title-en.png', titleAlt: 'The Norbert Files — Reopened Case', fallbackTitle: 'The Norbert Files', fallbackSubtitle: 'Reopened Case', fallbackCensored: ['un|censored', 'un|cut', 'un|redacted'], tour: 'Norbert on Tour', net: 'Norbert Got Caught in the Net', read: 'Cleared for <span class="scribble">Termination</span> Reading', mode: 'Karl-Heinz Mode', lake: 'News from the Lake', imprint: 'Imprint' },
-      es: { htmlLang: 'es', titleImage: 'assets/title-es.png', titleAlt: 'El expediente Norbert — Reapertura del caso', fallbackTitle: 'El expediente Norbert', fallbackSubtitle: 'Reapertura del caso', fallbackCensored: ['in|censurado', 'sin|recortes', 'sin|tachaduras'], tour: 'Norbert de gira', net: 'Norbert cayó en la red', read: 'Autorizado para <span class="scribble">eliminar</span> leer', mode: 'Modo Karl-Heinz', lake: 'Noticias del lago', imprint: 'Aviso legal' },
-      ru: { htmlLang: 'ru', titleImage: 'assets/title-ru.png', titleAlt: 'Дело Норберта — повторное рассмотрение', fallbackTitle: 'Дело Норберта', fallbackSubtitle: 'Повторное рассмотрение', fallbackCensored: ['не|цензурировано', 'не|сокращено', 'не|зачёркнуто'], tour: 'Норберт в туре', net: 'Норберт попал в сеть', read: 'Разрешено к <span class="scribble">отстрелу</span> прочтению', mode: 'Режим Карл-Хайнца', lake: 'Новости с озера', imprint: 'Импрессум' },
-      lat: { htmlLang: 'la', titleImage: 'assets/title-lat.png', titleAlt: 'Acta Norberti — ad ulteriorem censuram et recognitionem remissa', fallbackTitle: 'Acta Norberti', fallbackSubtitle: 'Ad ulteriorem censuram et recognitionem remissa', fallbackCensored: ['in|censum', 'non|abbreviatum', 'non|expurgatum'], tour: 'Norbertus in itinere', net: 'Norbertus in rete', read: 'Ad <span class="scribble">supplicium</span> legendum permissum', mode: 'Modus Karl-Heinz', lake: 'Nuntii de lacu', imprint: 'Impressum' },
-      quak: { htmlLang: 'de', titleImage: 'assets/title-quak.png', titleAlt: 'Quak Quak Quak — Wiedervorgequake', fallbackTitle: 'Quak Quak Quak', fallbackSubtitle: 'Wiedervorgequake', fallbackCensored: ['qu|ak', 'qu|ak', 'qu|ak'], tour: 'Norbert auf Quak', net: 'Norbert im Quak', read: 'Zum <span class="scribble">Abquaken</span> Durchquaken freigequakt', mode: 'Karl-Heinz Quak', lake: 'Neues vom Quak', imprint: 'Impressum-Quak' }
+      de: { htmlLang: 'de', titleImage: 'assets/title-de.png', titleAlt: 'Die Akte Norbert — Wiedervorlage', fallbackTitle: 'Die Akte Norbert', fallbackSubtitle: 'Wiedervorlage', fallbackCensored: ['un|zensiert', 'un|gekürzt', 'un|geschwärzt'], net: 'Norbert ins Netz gegangen', read: 'Zum <span class="scribble">Abschuss</span> Durchlesen freigegeben', mode: 'Karl-Heinz Modus', lake: 'Neues vom See', imprint: 'Impressum' },
+      en: { htmlLang: 'en', titleImage: 'assets/title-en.png', titleAlt: 'The Norbert Files — Reopened Case', fallbackTitle: 'The Norbert Files', fallbackSubtitle: 'Reopened Case', fallbackCensored: ['un|censored', 'un|cut', 'un|redacted'], net: 'Norbert Got Caught in the Net', read: 'Cleared for <span class="scribble">Termination</span> Reading', mode: 'Karl-Heinz Mode', lake: 'News from the Lake', imprint: 'Imprint' },
+      es: { htmlLang: 'es', titleImage: 'assets/title-es.png', titleAlt: 'El expediente Norbert — Reapertura del caso', fallbackTitle: 'El expediente Norbert', fallbackSubtitle: 'Reapertura del caso', fallbackCensored: ['in|censurado', 'sin|recortes', 'sin|tachaduras'], net: 'Norbert cayó en la red', read: 'Autorizado para <span class="scribble">eliminar</span> leer', mode: 'Modo Karl-Heinz', lake: 'Noticias del lago', imprint: 'Aviso legal' },
+      ru: { htmlLang: 'ru', titleImage: 'assets/title-ru.png', titleAlt: 'Дело Норберта — повторное рассмотрение', fallbackTitle: 'Дело Норберта', fallbackSubtitle: 'Повторное рассмотрение', fallbackCensored: ['не|цензурировано', 'не|сокращено', 'не|зачёркнуто'], net: 'Норберт попал в сеть', read: 'Разрешено к <span class="scribble">отстрелу</span> прочтению', mode: 'Режим Карл-Хайнца', lake: 'Новости с озера', imprint: 'Импрессум' },
+      lat: { htmlLang: 'la', titleImage: 'assets/title-lat.png', titleAlt: 'Acta Norberti — ad ulteriorem censuram et recognitionem remissa', fallbackTitle: 'Acta Norberti', fallbackSubtitle: 'Ad ulteriorem censuram et recognitionem remissa', fallbackCensored: ['in|censum', 'non|abbreviatum', 'non|expurgatum'], net: 'Norbertus in rete', read: 'Ad <span class="scribble">supplicium</span> legendum permissum', mode: 'Modus Karl-Heinz', lake: 'Nuntii de lacu', imprint: 'Impressum' },
+      quak: { htmlLang: 'de', titleImage: 'assets/title-quak.png', titleAlt: 'Quak Quak Quak — Wiedervorgequake', fallbackTitle: 'Quak Quak Quak', fallbackSubtitle: 'Wiedervorgequake', fallbackCensored: ['qu|ak', 'qu|ak', 'qu|ak'], net: 'Norbert im Quak', read: 'Zum <span class="scribble">Abquaken</span> Durchquaken freigequakt', mode: 'Karl-Heinz Quak', lake: 'Neues vom Quak', imprint: 'Impressum-Quak' }
     };
 
     const langButtons = document.querySelectorAll('.language-switch button');
@@ -437,7 +465,6 @@
     const fallbackTitle = document.getElementById('fallbackTitle');
     const fallbackSubtitle = document.getElementById('fallbackSubtitle');
     const fallbackCensored = document.getElementById('fallbackCensored');
-    const navTour = document.getElementById('navTour');
     const navNet = document.getElementById('navNet');
     const navRead = document.getElementById('navRead');
     const navMode = document.getElementById('navMode');
@@ -459,7 +486,6 @@
       fallbackTitle.textContent = t.fallbackTitle;
       fallbackSubtitle.textContent = t.fallbackSubtitle;
       fallbackCensored.innerHTML = renderCensored(t.fallbackCensored);
-      navTour.innerHTML = t.tour;
       navNet.innerHTML = t.net;
       navRead.innerHTML = t.read;
       navMode.innerHTML = t.mode;
